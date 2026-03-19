@@ -1,0 +1,348 @@
+/* ================= GLOBAL ================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    color: white;
+    overflow-x: hidden;
+    background: linear-gradient(to right, #000428, #004e92);
+}
+
+/* ================= BACKGROUND ================= */
+.bg {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: url('bg.jpg') no-repeat center/cover;
+    z-index: -1;
+}
+
+.bg::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.65);
+}
+
+/* ================= PROFILE ================= */
+.profile {
+    text-align: center;
+    padding: 70px 20px 40px;
+}
+
+.profile img {
+    width: 180px;
+    height: 200px;
+    border-radius: 10px;
+    object-fit: cover;
+    padding: 5px;
+    background: linear-gradient(135deg, #38bdf8, #6366f1);
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6),
+                0 0 20px rgba(56,189,248,0.4);
+
+    transition: 0.3s;
+}
+
+.profile img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.8),
+                0 0 25px rgba(56,189,248,0.6);
+}
+
+.profile h1 {
+    font-size: 30px;
+    color: #38bdf8;
+}
+
+.profile p {
+    margin: 6px 0;
+}
+
+.summary {
+    margin-top: 10px;
+    font-size: 15px;
+    color: #cbd5f5;
+}
+
+/* ================= COMMON CARD STYLE ================= */
+.big-card,
+.project-card,
+.problem-box,
+.journey-box,
+.edu-box,
+.result-box {
+    background: rgba(255,255,255,0.05);
+    border-radius: 15px;
+    border: 1px solid rgba(56,189,248,0.2);
+    transition: all 0.3s ease;
+}
+
+/* 🔥 UNIVERSAL HOVER EFFECT */
+.big-card:hover,
+.project-card:hover,
+.problem-box:hover,
+.journey-box:hover,
+.edu-box:hover,
+.result-box:hover {
+    transform: translateY(-8px) scale(1.01);
+    border-color: rgba(56,189,248,0.6);
+    box-shadow: 
+        0 15px 40px rgba(0,0,0,0.6),
+        0 0 15px rgba(56,189,248,0.4);
+}
+
+/* ================= BIG CARD ================= */
+.big-card {
+    margin: 35px 20px;
+    padding: 45px 30px;
+    backdrop-filter: blur(14px);
+    text-align: center;
+}
+
+/* ================= BUTTON ================= */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+    color: black;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(56,189,248,0.6);
+}
+
+/* ================= EDUCATION ================= */
+.edu-box {
+    margin-top: 20px;
+    padding: 20px;
+}
+
+.edu-box h3 {
+    color: #38bdf8;
+    margin-bottom: 8px;
+}
+
+.edu-box p {
+    font-size: 14px;
+    color: #e2e8f0;
+}
+
+.edu-box span {
+    font-size: 13px;
+    color: #94a3b8;
+}
+
+/* ================= RESULT ================= */
+.result-box {
+    margin-top: 20px;
+    padding: 20px;
+    text-align: center;
+}
+
+.result-box h3 {
+    color: #38bdf8;
+    margin-bottom: 8px;
+}
+
+.result-box p {
+    font-size: 20px;
+    font-weight: bold;
+    color: #e2e8f0;
+}
+
+/* ================= PROJECTS ================= */
+.projects {
+    padding: 50px 20px;
+    text-align: center;
+}
+
+.projects h1 {
+    font-size: 34px;
+    margin-bottom: 30px;
+    color: #8fd3ff;
+}
+
+.section-title {
+    font-size: 26px;
+    margin-bottom: 20px;
+    color: #4fc3f7;
+}
+
+.project-card {
+    width: 85%;
+    margin: 25px auto;
+    padding: 25px;
+}
+
+.project-card h2 {
+    color: #4fc3f7;
+    margin-bottom: 10px;
+}
+
+.project-card p {
+    color: #ddd;
+    line-height: 1.7;
+    font-size: 15px;
+}
+
+.status-box {
+    margin-top: 15px;
+    padding: 12px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(79,195,247,0.3);
+    color: #cfefff;
+    font-size: 14px;
+}
+
+/* ================= PROBLEM ================= */
+.problem-section {
+    padding: 50px 20px;
+    text-align: center;
+}
+
+.problem-section h1 {
+    font-size: 34px;
+    color: #8fd3ff;
+}
+
+.problem-box {
+    width: 85%;
+    margin: 20px auto;
+    padding: 25px;
+    text-align: left;
+}
+
+/* ================= JOURNEY ================= */
+.journey-section {
+    padding: 50px 20px;
+    text-align: center;
+}
+
+.journey-section h1 {
+    font-size: 34px;
+    color: #8fd3ff;
+}
+
+.journey-box {
+    width: 85%;
+    margin: 25px auto;
+    padding: 25px;
+    text-align: left;
+}
+
+/* ================= COMMON TEXT ================= */
+.subtitle {
+    max-width: 700px;
+    margin: 0 auto 30px;
+    color: #ddd;
+}
+
+ul {
+    padding-left: 20px;
+}
+
+li {
+    margin-bottom: 10px;
+    color: #ddd;
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 768px) {
+
+    .project-card,
+    .problem-box,
+    .journey-box {
+        width: 95%;
+        padding: 18px;
+    }
+
+    .projects h1,
+    .problem-section h1,
+    .journey-section h1 {
+        font-size: 26px;
+    }
+
+    .project-card p,
+    li {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .profile img {
+        width: 110px;
+        height: 110px;
+    }
+
+    .profile h1 {
+        font-size: 22px;
+    }
+
+    .big-card {
+        padding: 30px 20px;
+        margin: 25px 15px;
+    }
+}
+/* 🔥 GLOBAL TEXT SPACING FIX */
+p {
+    line-height: 1.8;
+    margin-bottom: 12px;
+}
+
+li {
+    line-height: 1.7;
+    margin-bottom: 10px;
+}
+
+/* 🔥 HEADINGS SPACING */
+h1, h2, h3 {
+    line-height: 1.3;
+    margin-bottom: 12px;
+}
+
+/* 🔥 BOX CONTENT SPACING */
+.project-card p,
+.problem-box p,
+.journey-box p {
+    line-height: 1.8;
+    margin-bottom: 12px;
+}
+
+.project-card ul,
+.problem-box ul,
+.journey-box ul {
+    margin-top: 10px;
+}
+
+/* 🔥 STATUS BOX FIX */
+.status-box {
+    line-height: 1.6;
+}
+
+/* 🔥 PREVENT TEXT OVERFLOW */
+.project-card,
+.problem-box,
+.journey-box {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* 🔥 EXTRA BOTTOM SPACE (fix overlapping end) */
+.projects,
+.problem-section,
+.journey-section {
+    padding-bottom: 60px;
+}
