@@ -1,3 +1,30 @@
+/* =================================================================
+   KUSHAL YN GOWDA — PORTFOLIO
+   Palette: blue primary, with indigo / violet / cyan / teal accents.
+   Layout geometry matches the original stylesheet.
+   ================================================================= */
+
+:root {
+    /* ---- accent palette (rgb triplets for rgba() composition) ---- */
+    --c-blue:   56, 189, 248;   /* #38bdf8  primary */
+    --c-indigo: 99, 102, 241;   /* #6366f1 */
+    --c-violet: 167, 139, 250;  /* #a78bfa */
+    --c-cyan:   34, 211, 238;   /* #22d3ee */
+    --c-teal:   45, 212, 191;   /* #2dd4bf */
+
+    /* ---- solid text colors ---- */
+    --t-heading: #38bdf8;
+    --t-bright:  #8fd3ff;
+    --t-accent:  #22d3ee;
+    --t-violet:  #a78bfa;
+    --t-body:    #d7e4f4;
+    --t-muted:   #93a4bd;
+
+    /* ---- mouse parallax, driven by ambient.js (-1 .. 1) ---- */
+    --mx: 0;
+    --my: 0;
+}
+
 /* ================= GLOBAL ================= */
 * {
     margin: 0;
@@ -7,25 +34,70 @@
 }
 
 body {
-    color: white;
+    color: var(--t-body);
     overflow-x: hidden;
-    background: linear-gradient(to right, #000428, #004e92);
+    background: #030711;
 }
 
-/* ================= BACKGROUND ================= */
-/* Fully generated in CSS — no image asset. */
+/* ================= BACKGROUND (painted, no image asset) ================= */
 .bg {
     position: fixed;
     width: 100%;
     height: 100%;
-    z-index: -1;
+    z-index: -6;
+    background:
+        /* cool bloom overhead */
+        radial-gradient(ellipse 92% 60% at 58% -14%, rgba(var(--c-indigo), .34) 0%, transparent 66%),
+        /* teal pool, lower left */
+        radial-gradient(ellipse 70% 50% at 8% 108%, rgba(var(--c-teal), .20) 0%, transparent 70%),
+        /* violet pool, lower right */
+        radial-gradient(ellipse 62% 46% at 94% 104%, rgba(var(--c-violet), .22) 0%, transparent 70%),
+        /* deep night body */
+        linear-gradient(178deg, #040a1a 0%, #071229 40%, #050d1c 74%, #02060f 100%);
+    transform: translate3d(calc(var(--mx) * -6px), calc(var(--my) * -6px), 0) scale(1.04);
+    transition: transform 1.2s cubic-bezier(.22, .61, .36, 1);
+    will-change: transform;
 }
 
+/* Drifting haze over the base */
 .bg::after {
     content: "";
     position: absolute;
     width: 100%;
     height: 100%;
+    background:
+        radial-gradient(44% 34% at 26% 24%, rgba(var(--c-blue), .16) 0%, transparent 66%),
+        radial-gradient(38% 30% at 76% 36%, rgba(var(--c-violet), .15) 0%, transparent 66%),
+        radial-gradient(52% 38% at 50% 80%, rgba(var(--c-indigo), .18) 0%, transparent 68%);
+    filter: blur(36px);
+    animation: c-haze 58s ease-in-out infinite alternate;
+    will-change: transform, opacity;
+}
+
+@keyframes c-haze {
+    0%   { transform: translate3d(0, 0, 0) scale(1.05);    opacity: .70; }
+    50%  { transform: translate3d(-3%, 2%, 0) scale(1.17); opacity: 1; }
+    100% { transform: translate3d(3%, -2%, 0) scale(1.10); opacity: .82; }
+}
+
+/* ================= GRADIENT HEADINGS ================= */
+.profile h1,
+.page-title h1,
+.projects h1,
+.problem-section h1,
+.journey-section h1 {
+    color: var(--t-bright);                 /* fallback */
+    background: linear-gradient(100deg, #38bdf8 0%, #a78bfa 45%, #22d3ee 100%);
+    -webkit-background-clip: text;
+            background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 220% 100%;
+    animation: c-title 14s ease-in-out infinite;
+}
+
+@keyframes c-title {
+    0%, 100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
 }
 
 /* ================= PROFILE ================= */
@@ -34,39 +106,39 @@ body {
     padding: 70px 20px 40px;
 }
 
+/* Fallback styling if JS has not wrapped the portrait */
 .profile img {
     width: 180px;
     height: 200px;
-    border-radius: 10px;
+    border-radius: 6px;
     object-fit: cover;
-    padding: 5px;
-    background: linear-gradient(135deg, #38bdf8, #6366f1);
-
-    box-shadow: 0 10px 30px rgba(0,0,0,0.6),
-                0 0 20px rgba(56,189,248,0.4);
-
-    transition: 0.3s;
-}
-
-.profile img:hover {
-    transform: scale(1.05);
-    box-shadow: 0 15px 40px rgba(0,0,0,0.8),
-                0 0 25px rgba(56,189,248,0.6);
+    padding: 4px;
+    background: linear-gradient(135deg, #38bdf8, #a78bfa);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .6),
+                0 0 20px rgba(var(--c-blue), .35);
+    transition: .3s;
 }
 
 .profile h1 {
     font-size: 30px;
-    color: #38bdf8;
+    letter-spacing: .4px;
 }
 
 .profile p {
     margin: 6px 0;
 }
 
+.info {
+    color: var(--t-accent);
+    font-size: 14px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+}
+
 .summary {
     margin-top: 10px;
     font-size: 15px;
-    color: #cbd5f5;
+    color: var(--t-body);
 }
 
 /* ================= COMMON CARD STYLE ================= */
@@ -76,13 +148,12 @@ body {
 .journey-box,
 .edu-box,
 .result-box {
-    background: rgba(255,255,255,0.05);
+    background: rgba(226, 240, 255, .045);
     border-radius: 15px;
-    border: 1px solid rgba(56,189,248,0.2);
-    transition: all 0.3s ease;
+    border: 1px solid rgba(var(--c-blue), .20);
+    transition: all .3s ease;
 }
 
-/* 🔥 UNIVERSAL HOVER EFFECT */
 .big-card:hover,
 .project-card:hover,
 .problem-box:hover,
@@ -90,10 +161,11 @@ body {
 .edu-box:hover,
 .result-box:hover {
     transform: translateY(-8px) scale(1.01);
-    border-color: rgba(56,189,248,0.6);
-    box-shadow: 
-        0 15px 40px rgba(0,0,0,0.6),
-        0 0 15px rgba(56,189,248,0.4);
+    border-color: rgba(var(--c-cyan), .55);
+    box-shadow:
+        0 18px 48px rgba(0, 0, 0, .58),
+        0 0 22px rgba(var(--c-blue), .26),
+        inset 0 1px 0 rgba(226, 240, 255, .10);
 }
 
 /* ================= BIG CARD ================= */
@@ -108,17 +180,26 @@ body {
 .btn {
     display: inline-block;
     padding: 10px 20px;
-    background: linear-gradient(135deg, #38bdf8, #0ea5e9);
-    color: black;
+    background: linear-gradient(115deg, #38bdf8, #6366f1, #22d3ee, #38bdf8);
+    background-size: 300% 100%;
+    color: #04121f;
+    font-weight: bold;
     text-decoration: none;
     border-radius: 8px;
     font-size: 14px;
-    transition: 0.3s;
+    box-shadow: 0 6px 20px rgba(var(--c-blue), .26);
+    animation: c-btn 12s ease infinite;
+    transition: .3s;
+}
+
+@keyframes c-btn {
+    0%, 100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
 }
 
 .btn:hover {
     transform: scale(1.05);
-    box-shadow: 0 0 15px rgba(56,189,248,0.6);
+    box-shadow: 0 0 26px rgba(var(--c-cyan), .55), 0 8px 26px rgba(0, 0, 0, .45);
 }
 
 /* ================= EDUCATION ================= */
@@ -128,18 +209,18 @@ body {
 }
 
 .edu-box h3 {
-    color: #38bdf8;
+    color: var(--t-heading);
     margin-bottom: 8px;
 }
 
 .edu-box p {
     font-size: 14px;
-    color: #e2e8f0;
+    color: var(--t-body);
 }
 
 .edu-box span {
     font-size: 13px;
-    color: #94a3b8;
+    color: var(--t-muted);
 }
 
 /* ================= RESULT ================= */
@@ -150,14 +231,14 @@ body {
 }
 
 .result-box h3 {
-    color: #38bdf8;
+    color: var(--t-accent);
     margin-bottom: 8px;
 }
 
 .result-box p {
     font-size: 20px;
     font-weight: bold;
-    color: #e2e8f0;
+    color: #e6f2ff;
 }
 
 /* ================= PROJECTS ================= */
@@ -169,13 +250,12 @@ body {
 .projects h1 {
     font-size: 34px;
     margin-bottom: 30px;
-    color: #8fd3ff;
 }
 
 .section-title {
     font-size: 26px;
     margin-bottom: 20px;
-    color: #4fc3f7;
+    color: var(--t-accent);
 }
 
 .project-card {
@@ -185,12 +265,12 @@ body {
 }
 
 .project-card h2 {
-    color: #4fc3f7;
+    color: var(--t-heading);
     margin-bottom: 10px;
 }
 
 .project-card p {
-    color: #ddd;
+    color: var(--t-body);
     line-height: 1.7;
     font-size: 15px;
 }
@@ -199,9 +279,9 @@ body {
     margin-top: 15px;
     padding: 12px;
     border-radius: 10px;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(79,195,247,0.3);
-    color: #cfefff;
+    background: rgba(226, 240, 255, .035);
+    border: 1px solid rgba(var(--c-violet), .34);
+    color: #dfeaff;
     font-size: 14px;
 }
 
@@ -213,7 +293,6 @@ body {
 
 .problem-section h1 {
     font-size: 34px;
-    color: #8fd3ff;
 }
 
 .problem-box {
@@ -231,7 +310,6 @@ body {
 
 .journey-section h1 {
     font-size: 34px;
-    color: #8fd3ff;
 }
 
 .journey-box {
@@ -241,11 +319,16 @@ body {
     text-align: left;
 }
 
+.journey-box h2,
+.problem-box h2 {
+    color: var(--t-heading);
+}
+
 /* ================= COMMON TEXT ================= */
 .subtitle {
     max-width: 700px;
     margin: 0 auto 30px;
-    color: #ddd;
+    color: var(--t-body);
 }
 
 ul {
@@ -254,10 +337,77 @@ ul {
 
 li {
     margin-bottom: 10px;
-    color: #ddd;
+    color: var(--t-body);
+    line-height: 1.7;
 }
 
-/* ================= MOBILE ================= */
+li::marker {
+    color: var(--t-accent);
+}
+
+p {
+    line-height: 1.8;
+    margin-bottom: 12px;
+}
+
+h1, h2, h3 {
+    line-height: 1.3;
+    margin-bottom: 12px;
+}
+
+.project-card p,
+.problem-box p,
+.journey-box p {
+    line-height: 1.8;
+    margin-bottom: 12px;
+}
+
+.project-card ul,
+.problem-box ul,
+.journey-box ul {
+    margin-top: 10px;
+}
+
+.status-box {
+    line-height: 1.6;
+}
+
+.project-card,
+.problem-box,
+.journey-box {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.projects,
+.problem-section,
+.journey-section {
+    padding-bottom: 60px;
+}
+
+/* ================= PAGE TITLE ================= */
+.page-title {
+    text-align: center;
+    padding: 30px 10px 10px;
+}
+
+.page-title h1 {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.big-card h2 {
+    font-size: 26px;
+    margin-bottom: 20px;
+    color: var(--t-heading);
+    text-align: center;
+}
+
+.project-note p {
+    color: var(--t-body);
+}
+
+/* ================= MOBILE (geometry unchanged) ================= */
 @media (max-width: 768px) {
 
     .project-card,
@@ -281,11 +431,6 @@ li {
 
 @media (max-width: 600px) {
 
-    .profile img {
-        width: 110px;
-        height: 110px;
-    }
-
     .profile h1 {
         font-size: 22px;
     }
@@ -295,195 +440,86 @@ li {
         margin: 25px 15px;
     }
 }
-/* 🔥 GLOBAL TEXT SPACING FIX */
-p {
-    line-height: 1.8;
-    margin-bottom: 12px;
-}
-
-li {
-    line-height: 1.7;
-    margin-bottom: 10px;
-}
-
-/* 🔥 HEADINGS SPACING */
-h1, h2, h3 {
-    line-height: 1.3;
-    margin-bottom: 12px;
-}
-
-/* 🔥 BOX CONTENT SPACING */
-.project-card p,
-.problem-box p,
-.journey-box p {
-    line-height: 1.8;
-    margin-bottom: 12px;
-}
-
-.project-card ul,
-.problem-box ul,
-.journey-box ul {
-    margin-top: 10px;
-}
-
-/* 🔥 STATUS BOX FIX */
-.status-box {
-    line-height: 1.6;
-}
-
-/* 🔥 PREVENT TEXT OVERFLOW */
-.project-card,
-.problem-box,
-.journey-box {
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-}
-
-/* 🔥 EXTRA BOTTOM SPACE (fix overlapping end) */
-.projects,
-.problem-section,
-.journey-section {
-    padding-bottom: 60px;
-}
-/* 🔥 PAGE TITLE FIX */
-.page-title {
-    text-align: center;
-    padding: 30px 10px 10px;
-}
-
-.page-title h1 {
-    font-size: 32px;
-    color: #38bdf8;   /* 🔥 FIXED COLOR */
-    font-weight: bold;
-}
-
-/* 🔥 BIG CARD HEADING ALIGNMENT */
-.big-card h2 {
-    font-size: 26px;
-    margin-bottom: 20px;
-    color: #38bdf8;
-    text-align: center;   /* 🔥 CENTER ALIGN */
-}
-
-/* 🔥 CENTER RESULT BOX CONTENT */
-.result-box {
-    text-align: center;
-}
 
 /* =================================================================
-   ✦ AMBIENT CINEMATIC BACKGROUND SYSTEM
-   Background / lighting / motion only. No layout or content changes.
-   All layers are fixed, pointer-events:none and sit behind content.
+   ✦ AMBIENT SYSTEM
+   Every layer is fixed, pointer-events:none and sits behind content.
+   Motion is transform/opacity only so it composites on the GPU.
    ================================================================= */
 
-:root {
-    /* Mouse parallax offsets, updated by ambient.js (-1 .. 1) */
-    --mx: 0;
-    --my: 0;
-
-    --amb-sky:     56, 189, 248;
-    --amb-indigo:  99, 102, 241;
-    --amb-cyan:    34, 211, 238;
-    --amb-violet: 139, 92, 246;
-}
-
-/* Deepen the base so light layers read as light, not haze */
-body {
-    background: radial-gradient(120% 120% at 50% -10%, #061733 0%, #030b1c 45%, #01060f 100%);
-    background-attachment: fixed;
-}
-
-/* ---------- Layer 0: painted deep-space base (no image) ---------- */
-.bg {
-    z-index: -6;
-    background:
-        /* upper atmosphere bloom */
-        radial-gradient(ellipse 95% 62% at 50% -12%, rgba(var(--amb-indigo), .34) 0%, transparent 68%),
-        /* lower corner light pools */
-        radial-gradient(ellipse 72% 52% at 12% 112%, rgba(var(--amb-cyan), .20) 0%, transparent 70%),
-        radial-gradient(ellipse 64% 46% at 88% 106%, rgba(var(--amb-violet), .22) 0%, transparent 70%),
-        /* deep night sky */
-        linear-gradient(180deg, #04091a 0%, #061229 38%, #040a18 72%, #01050e 100%);
-    /* Static paint: all motion comes from the layers above, so this
-       full-screen layer never needs re-rasterising. */
-    transform: translate3d(calc(var(--mx) * -6px), calc(var(--my) * -6px), 0) scale(1.04);
-    transition: transform 1.2s cubic-bezier(.22, .61, .36, 1);
-    will-change: transform;
-}
-
-/* Faint drifting nebula clouds layered over the base */
-.bg::after {
-    background:
-        radial-gradient(42% 34% at 28% 22%, rgba(var(--amb-sky), .16) 0%, transparent 66%),
-        radial-gradient(38% 30% at 74% 34%, rgba(var(--amb-violet), .14) 0%, transparent 66%),
-        radial-gradient(50% 38% at 52% 78%, rgba(var(--amb-indigo), .16) 0%, transparent 68%);
-    filter: blur(34px);
-    animation: amb-nebula 56s ease-in-out infinite alternate;
-    will-change: transform, opacity;
-}
-
-@keyframes amb-nebula {
-    0%   { transform: translate3d(0, 0, 0) scale(1.05);        opacity: .7; }
-    50%  { transform: translate3d(-3%, 2%, 0) scale(1.16);     opacity: 1; }
-    100% { transform: translate3d(2.5%, -2.5%, 0) scale(1.09); opacity: .8; }
-}
-
-/* ---------- Layer 1: slow multi-gradient mesh ---------- */
+/* ---------- Slow rotating sunburst (hidden light source) ---------- */
 body::before {
     content: "";
     position: fixed;
-    inset: -25%;
+    left: 50%;
+    top: -55vmax;
+    width: 150vmax;
+    height: 150vmax;
+    margin-left: -75vmax;
     z-index: -5;
     pointer-events: none;
-    background:
-        radial-gradient(38% 42% at 22% 28%, rgba(var(--amb-indigo), .28) 0%, transparent 62%),
-        radial-gradient(34% 38% at 78% 18%, rgba(var(--amb-sky), .22) 0%, transparent 64%),
-        radial-gradient(46% 44% at 62% 82%, rgba(var(--amb-violet), .20) 0%, transparent 66%),
-        radial-gradient(30% 34% at 12% 76%, rgba(var(--amb-cyan), .16) 0%, transparent 62%);
-    filter: blur(38px) saturate(115%);
-    animation: amb-mesh 44s ease-in-out infinite alternate;
-    will-change: transform, opacity;
+    background: conic-gradient(from 0deg,
+        transparent 0deg,
+        rgba(var(--c-blue), .11) 6deg,
+        transparent 15deg,
+        transparent 42deg,
+        rgba(var(--c-violet), .08) 48deg,
+        transparent 57deg,
+        transparent 90deg,
+        rgba(var(--c-cyan), .09) 97deg,
+        transparent 106deg,
+        transparent 152deg,
+        rgba(var(--c-indigo), .09) 159deg,
+        transparent 168deg,
+        transparent 212deg,
+        rgba(var(--c-teal), .07) 219deg,
+        transparent 228deg,
+        transparent 282deg,
+        rgba(var(--c-blue), .08) 290deg,
+        transparent 299deg,
+        transparent 342deg,
+        rgba(var(--c-violet), .07) 350deg,
+        transparent 358deg);
+    filter: blur(32px);
+    opacity: .78;
+    animation: c-sunburst 150s linear infinite;
+    will-change: transform;
 }
 
-@keyframes amb-mesh {
-    0%   { transform: translate3d(0, 0, 0) scale(1);      opacity: .85; }
-    35%  { transform: translate3d(2.5%, -2%, 0) scale(1.07); opacity: 1; }
-    70%  { transform: translate3d(-2%, 1.5%, 0) scale(1.03); opacity: .9; }
-    100% { transform: translate3d(1%, 2.5%, 0) scale(1.09);  opacity: .95; }
+@keyframes c-sunburst {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
 }
 
-/* ---------- Layer 2: aurora ribbons ---------- */
+/* ---------- Multi-hue aurora band ---------- */
 body::after {
     content: "";
     position: fixed;
     inset: -30% -15%;
     z-index: -4;
     pointer-events: none;
-    background:
-        linear-gradient(112deg,
-            transparent 12%,
-            rgba(var(--amb-sky), .16) 26%,
-            transparent 38%,
-            rgba(var(--amb-violet), .14) 54%,
-            transparent 66%,
-            rgba(var(--amb-cyan), .12) 80%,
-            transparent 92%);
+    background: linear-gradient(108deg,
+        transparent 12%,
+        rgba(var(--c-blue), .15) 26%,
+        transparent 38%,
+        rgba(var(--c-violet), .13) 52%,
+        transparent 63%,
+        rgba(var(--c-teal), .11) 78%,
+        transparent 90%);
     background-size: 220% 220%;
     background-position: 50% 50%;
-    filter: blur(46px);
-    opacity: .8;
-    /* transform-only so the blur is rasterised once and composited on the GPU */
-    animation: amb-aurora 38s ease-in-out infinite alternate;
-    will-change: transform;
+    filter: blur(48px);
+    animation: c-aurora 42s ease-in-out infinite alternate;
+    will-change: transform, opacity;
 }
 
-@keyframes amb-aurora {
-    0%   { transform: translate3d(-6%, 0, 0) skewY(-3deg) scale(1);     opacity: .62; }
-    50%  { transform: translate3d(4%, 2%, 0) skewY(2deg) scale(1.08);   opacity: .9; }
-    100% { transform: translate3d(-2%, -2%, 0) skewY(-2deg) scale(1.03); opacity: .7; }
+@keyframes c-aurora {
+    0%   { transform: translate3d(-6%, 0, 0) skewY(-3deg) scale(1);      opacity: .58; }
+    50%  { transform: translate3d(4%, 2%, 0) skewY(2deg) scale(1.09);    opacity: .9; }
+    100% { transform: translate3d(-2%, -2%, 0) skewY(-2deg) scale(1.03); opacity: .68; }
 }
 
-/* ---------- Ambient stage (injected by ambient.js) ---------- */
+/* ---------- Ambient stage (built by ambient.js) ---------- */
 .ambient {
     position: fixed;
     inset: 0;
@@ -493,192 +529,133 @@ body::after {
     contain: layout paint style;
 }
 
-/* --- Tech grid with slow parallax drift --- */
-.ambient-grid {
+/* --- Fine diagonal hairlines: subtle engineered texture --- */
+.ambient-hairlines {
     position: absolute;
     inset: -40%;
-    background-image:
-        linear-gradient(rgba(var(--amb-sky), .085) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(var(--amb-sky), .085) 1px, transparent 1px);
-    background-size: 64px 64px;
-    -webkit-mask-image: radial-gradient(58% 52% at 50% 42%, #000 0%, transparent 78%);
-            mask-image: radial-gradient(58% 52% at 50% 42%, #000 0%, transparent 78%);
-    transform: translate3d(calc(var(--mx) * 14px), calc(var(--my) * 14px), 0);
+    background-image: repeating-linear-gradient(
+        58deg,
+        rgba(var(--c-blue), .06) 0px,
+        rgba(var(--c-blue), .06) 1px,
+        transparent 1px,
+        transparent 46px);
+    -webkit-mask-image: radial-gradient(62% 55% at 50% 40%, #000 0%, transparent 80%);
+            mask-image: radial-gradient(62% 55% at 50% 40%, #000 0%, transparent 80%);
+    transform: translate3d(calc(var(--mx) * 12px), calc(var(--my) * 12px), 0);
     transition: transform 1.4s cubic-bezier(.22, .61, .36, 1);
-    animation: amb-grid 60s linear infinite;
+    animation: c-hairlines 90s linear infinite;
     will-change: transform;
 }
 
-@keyframes amb-grid {
-    from { background-position: 0 0, 0 0; }
-    to   { background-position: 64px 128px, 128px 64px; }
+@keyframes c-hairlines {
+    from { background-position: 0 0; }
+    to   { background-position: 460px 0; }
 }
 
-/* --- Drifting glow orbs --- */
-.ambient-orb {
+/* --- Volumetric rays falling from above --- */
+.ambient-ray {
     position: absolute;
-    border-radius: 50%;
-    filter: blur(70px);
+    top: -40vh;
+    height: 190vh;
+    transform-origin: 50% 0;
+    filter: blur(34px);
     opacity: 0;
     will-change: transform, opacity;
 }
 
-.ambient-orb.o1 {
-    width: 46vmax; height: 46vmax;
-    left: -12vmax; top: -10vmax;
-    background: radial-gradient(circle at 35% 35%, rgba(var(--amb-sky), .34), transparent 68%);
-    animation: amb-orb-1 42s ease-in-out infinite alternate;
+.ambient-ray.r1 {
+    width: 16vw; left: 14vw;
+    background: linear-gradient(to bottom, rgba(var(--c-blue), .20), rgba(var(--c-blue), .06) 55%, transparent);
+    animation: c-ray-a 30s ease-in-out infinite;
 }
 
-.ambient-orb.o2 {
-    width: 40vmax; height: 40vmax;
-    right: -14vmax; top: 8vh;
-    background: radial-gradient(circle at 60% 40%, rgba(var(--amb-violet), .30), transparent 68%);
-    animation: amb-orb-2 52s ease-in-out infinite alternate;
+.ambient-ray.r2 {
+    width: 10vw; left: 44vw;
+    background: linear-gradient(to bottom, rgba(var(--c-violet), .18), rgba(var(--c-violet), .05) 55%, transparent);
+    animation: c-ray-b 38s ease-in-out infinite;
+    animation-delay: -11s;
 }
 
-.ambient-orb.o3 {
-    width: 52vmax; height: 52vmax;
-    left: 18vw; bottom: -22vmax;
-    background: radial-gradient(circle at 45% 55%, rgba(var(--amb-indigo), .30), transparent 70%);
-    animation: amb-orb-3 60s ease-in-out infinite alternate;
+.ambient-ray.r3 {
+    width: 20vw; right: 10vw;
+    background: linear-gradient(to bottom, rgba(var(--c-cyan), .17), rgba(var(--c-cyan), .05) 55%, transparent);
+    animation: c-ray-a 34s ease-in-out infinite;
+    animation-delay: -17s;
 }
 
-.ambient-orb.o4 {
+@keyframes c-ray-a {
+    0%, 100% { transform: rotate(9deg) translate3d(-4vw, 0, 0) scaleY(.94);  opacity: .35; }
+    50%      { transform: rotate(13deg) translate3d(6vw, 0, 0) scaleY(1.06); opacity: .8; }
+}
+
+@keyframes c-ray-b {
+    0%, 100% { transform: rotate(-8deg) translate3d(4vw, 0, 0) scaleY(1);     opacity: .3; }
+    50%      { transform: rotate(-4deg) translate3d(-7vw, 0, 0) scaleY(1.08); opacity: .7; }
+}
+
+/* --- Glow pools drifting on long paths (one per accent hue) --- */
+.ambient-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(75px);
+    opacity: 0;
+    will-change: transform, opacity;
+}
+
+.ambient-glow.g1 {
+    width: 44vmax; height: 44vmax;
+    left: -12vmax; top: -8vmax;
+    background: radial-gradient(circle at 40% 40%, rgba(var(--c-blue), .32), transparent 68%);
+    animation: c-glow-1 46s ease-in-out infinite alternate;
+}
+
+.ambient-glow.g2 {
+    width: 38vmax; height: 38vmax;
+    right: -13vmax; top: 12vh;
+    background: radial-gradient(circle at 60% 40%, rgba(var(--c-violet), .30), transparent 68%);
+    animation: c-glow-2 56s ease-in-out infinite alternate;
+}
+
+.ambient-glow.g3 {
+    width: 50vmax; height: 50vmax;
+    left: 20vw; bottom: -22vmax;
+    background: radial-gradient(circle at 45% 55%, rgba(var(--c-indigo), .30), transparent 70%);
+    animation: c-glow-3 64s ease-in-out infinite alternate;
+}
+
+.ambient-glow.g4 {
     width: 30vmax; height: 30vmax;
-    right: 10vw; bottom: -6vmax;
-    background: radial-gradient(circle at 50% 50%, rgba(var(--amb-cyan), .26), transparent 66%);
-    animation: amb-orb-4 36s ease-in-out infinite alternate;
+    right: 12vw; bottom: -6vmax;
+    background: radial-gradient(circle at 50% 50%, rgba(var(--c-teal), .26), transparent 66%);
+    animation: c-glow-4 38s ease-in-out infinite alternate;
 }
 
-@keyframes amb-orb-1 {
-    0%   { transform: translate3d(0, 0, 0) scale(1);       opacity: .55; }
-    50%  { transform: translate3d(16vw, 10vh, 0) scale(1.16); opacity: .85; }
-    100% { transform: translate3d(6vw, 26vh, 0) scale(1.05);  opacity: .62; }
+@keyframes c-glow-1 {
+    0%   { transform: translate3d(0, 0, 0) scale(1);           opacity: .5; }
+    50%  { transform: translate3d(15vw, 12vh, 0) scale(1.16);  opacity: .85; }
+    100% { transform: translate3d(5vw, 27vh, 0) scale(1.05);   opacity: .6; }
 }
 
-@keyframes amb-orb-2 {
-    0%   { transform: translate3d(0, 0, 0) scale(1.05);        opacity: .5; }
-    50%  { transform: translate3d(-14vw, 20vh, 0) scale(1.2);  opacity: .8; }
-    100% { transform: translate3d(-4vw, 40vh, 0) scale(1);     opacity: .58; }
+@keyframes c-glow-2 {
+    0%   { transform: translate3d(0, 0, 0) scale(1.05);        opacity: .45; }
+    50%  { transform: translate3d(-13vw, 21vh, 0) scale(1.2);  opacity: .78; }
+    100% { transform: translate3d(-4vw, 40vh, 0) scale(1);     opacity: .55; }
 }
 
-@keyframes amb-orb-3 {
-    0%   { transform: translate3d(0, 0, 0) scale(1);            opacity: .5; }
-    50%  { transform: translate3d(-18vw, -16vh, 0) scale(1.14); opacity: .78; }
-    100% { transform: translate3d(10vw, -30vh, 0) scale(1.04);  opacity: .6; }
+@keyframes c-glow-3 {
+    0%   { transform: translate3d(0, 0, 0) scale(1);            opacity: .48; }
+    50%  { transform: translate3d(-17vw, -15vh, 0) scale(1.14); opacity: .76; }
+    100% { transform: translate3d(9vw, -29vh, 0) scale(1.04);   opacity: .58; }
 }
 
-@keyframes amb-orb-4 {
-    0%   { transform: translate3d(0, 0, 0) scale(1);           opacity: .45; }
-    50%  { transform: translate3d(-8vw, -22vh, 0) scale(1.22); opacity: .72; }
+@keyframes c-glow-4 {
+    0%   { transform: translate3d(0, 0, 0) scale(1);           opacity: .42; }
+    50%  { transform: translate3d(-8vw, -22vh, 0) scale(1.22); opacity: .7; }
     100% { transform: translate3d(4vw, -8vh, 0) scale(1.02);   opacity: .5; }
 }
 
-/* --- Soft light beams --- */
-.ambient-beam {
-    position: absolute;
-    top: -35vh;
-    height: 175vh;
-    filter: blur(28px);
-    opacity: 0;
-    will-change: transform, opacity;
-}
-
-.ambient-beam.b1 {
-    width: 9vw; left: 8vw;
-    background: linear-gradient(to bottom, transparent, rgba(var(--amb-sky), .16), transparent);
-    transform: rotate(16deg);
-    animation: amb-beam-a 26s ease-in-out infinite;
-}
-
-.ambient-beam.b2 {
-    width: 5vw; left: 46vw;
-    background: linear-gradient(to bottom, transparent, rgba(var(--amb-violet), .14), transparent);
-    transform: rotate(-13deg);
-    animation: amb-beam-b 34s ease-in-out infinite;
-    animation-delay: -8s;
-}
-
-.ambient-beam.b3 {
-    width: 12vw; right: 6vw;
-    background: linear-gradient(to bottom, transparent, rgba(var(--amb-cyan), .12), transparent);
-    transform: rotate(20deg);
-    animation: amb-beam-a 30s ease-in-out infinite;
-    animation-delay: -14s;
-}
-
-@keyframes amb-beam-a {
-    0%, 100% { transform: rotate(16deg) translate3d(-6vw, 0, 0) scaleY(.94); opacity: .35; }
-    50%      { transform: rotate(19deg) translate3d(8vw, 0, 0) scaleY(1.06); opacity: .75; }
-}
-
-@keyframes amb-beam-b {
-    0%, 100% { transform: rotate(-13deg) translate3d(5vw, 0, 0) scaleY(1);   opacity: .3; }
-    50%      { transform: rotate(-9deg) translate3d(-9vw, 0, 0) scaleY(1.08); opacity: .65; }
-}
-
-/* --- Floating blurred light particles --- */
-.ambient-particle {
-    position: absolute;
-    left: var(--p-x, 50%);
-    top: var(--p-y, 50%);
-    width: var(--p-size, 6px);
-    height: var(--p-size, 6px);
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(210, 238, 255, .85), rgba(var(--amb-sky), .35) 45%, transparent 70%);
-    filter: blur(1.5px);
-    opacity: 0;
-    animation: amb-float var(--p-dur, 30s) ease-in-out var(--p-delay, 0s) infinite;
-    will-change: transform, opacity;
-}
-
-@keyframes amb-float {
-    0%   { transform: translate3d(0, 12vh, 0) scale(.7);  opacity: 0; }
-    18%  { opacity: var(--p-op, .5); }
-    50%  { transform: translate3d(var(--p-dx, 4vw), -14vh, 0) scale(1.15); opacity: var(--p-op, .5); }
-    82%  { opacity: calc(var(--p-op, .5) * .55); }
-    100% { transform: translate3d(calc(var(--p-dx, 4vw) * -.6), -30vh, 0) scale(.8); opacity: 0; }
-}
-
-/* --- Occasional shimmer / light sweep --- */
-.ambient-sweep {
-    position: absolute;
-    top: -30vh;
-    left: -40vw;
-    width: 34vw;
-    height: 170vh;
-    background: linear-gradient(90deg,
-        transparent,
-        rgba(198, 230, 255, .05) 35%,
-        rgba(224, 242, 255, .11) 50%,
-        rgba(198, 230, 255, .05) 65%,
-        transparent);
-    filter: blur(24px);
-    transform: rotate(18deg) translate3d(0, 0, 0);
-    opacity: 0;
-    animation: amb-sweep 19s ease-in-out infinite;
-    animation-delay: 6s;
-    will-change: transform, opacity;
-}
-
-.ambient-sweep.s2 {
-    width: 22vw;
-    animation-duration: 27s;
-    animation-delay: 15s;
-    opacity: 0;
-}
-
-@keyframes amb-sweep {
-    0%       { transform: rotate(18deg) translate3d(0, 0, 0);     opacity: 0; }
-    8%       { opacity: .7; }
-    45%      { opacity: .85; }
-    75%      { opacity: 0; }
-    100%     { transform: rotate(18deg) translate3d(190vw, 0, 0); opacity: 0; }
-}
-
-/* --- Starfield: one tiny dot replicated via box-shadow (built in JS) --- */
-.ambient-stars {
+/* --- Dust field: one dot cloned via box-shadow (built in JS) --- */
+.ambient-dust {
     position: absolute;
     top: 0;
     left: 0;
@@ -689,77 +666,119 @@ body::after {
     will-change: transform, opacity;
 }
 
-/* far layer — dense, dim, slow */
-.ambient-stars.far {
-    opacity: .5;
+.ambient-dust.far {
+    opacity: .45;
     animation:
-        amb-star-drift 150s linear infinite,
-        amb-twinkle 7s ease-in-out infinite alternate;
+        c-dust-drift 165s linear infinite,
+        c-dust-fade 9s ease-in-out infinite alternate;
 }
 
-/* near layer — sparse, brighter, faster (parallax depth) */
-.ambient-stars.near {
-    opacity: .8;
+.ambient-dust.near {
+    opacity: .75;
     animation:
-        amb-star-drift 90s linear infinite reverse,
-        amb-twinkle 4.5s ease-in-out infinite alternate;
-    animation-delay: 0s, -2s;
+        c-dust-drift 100s linear infinite reverse,
+        c-dust-fade 5.5s ease-in-out infinite alternate;
+    animation-delay: 0s, -2.5s;
 }
 
-@keyframes amb-star-drift {
+@keyframes c-dust-drift {
     from { transform: translate3d(0, 0, 0); }
-    to   { transform: translate3d(-6vw, -4vh, 0); }
+    to   { transform: translate3d(-7vw, -5vh, 0); }
 }
 
-@keyframes amb-twinkle {
-    0%   { opacity: .32; }
-    100% { opacity: .9; }
+@keyframes c-dust-fade {
+    0%   { opacity: .28; }
+    100% { opacity: .82; }
 }
 
-/* --- Meteors: rare cinematic streaks --- */
-.ambient-meteor {
+/* --- Rising light motes --- */
+.ambient-mote {
     position: absolute;
-    width: 190px;
-    height: 2px;
-    border-radius: 2px;
-    background: linear-gradient(90deg,
-        transparent 0%,
-        rgba(198, 230, 255, .55) 55%,
-        rgba(255, 255, 255, .95) 100%);
-    filter: blur(.6px) drop-shadow(0 0 6px rgba(var(--amb-sky), .8));
+    left: var(--p-x, 50%);
+    top: var(--p-y, 90%);
+    width: var(--p-size, 5px);
+    height: var(--p-size, 5px);
+    border-radius: 50%;
+    /* --p-tint is assigned per mote in JS so the hues are mixed evenly */
+    background: radial-gradient(circle,
+        rgba(240, 250, 255, .95),
+        rgba(var(--p-tint, var(--c-blue)), .50) 42%,
+        transparent 70%);
+    filter: blur(1.4px);
     opacity: 0;
+    animation: c-mote-rise var(--p-dur, 32s) ease-in-out var(--p-delay, 0s) infinite;
     will-change: transform, opacity;
 }
 
-.ambient-meteor.m1 {
-    top: 12%; left: -14%;
-    animation: amb-meteor 17s ease-in infinite;
-    animation-delay: 4s;
+@keyframes c-mote-rise {
+    0%   { transform: translate3d(0, 16vh, 0) scale(.6);  opacity: 0; }
+    16%  { opacity: var(--p-op, .55); }
+    50%  { transform: translate3d(var(--p-dx, 4vw), -18vh, 0) scale(1.2); opacity: var(--p-op, .55); }
+    84%  { opacity: calc(var(--p-op, .55) * .5); }
+    100% { transform: translate3d(calc(var(--p-dx, 4vw) * -.5), -42vh, 0) scale(.75); opacity: 0; }
 }
 
-.ambient-meteor.m2 {
-    top: 34%; left: -18%;
-    width: 140px;
-    animation: amb-meteor 26s ease-in infinite;
-    animation-delay: 13s;
+/* --- Occasional light sweep --- */
+.ambient-sweep {
+    position: absolute;
+    top: -30vh;
+    left: -40vw;
+    width: 32vw;
+    height: 170vh;
+    background: linear-gradient(90deg,
+        transparent,
+        rgba(var(--c-blue), .05) 35%,
+        rgba(226, 245, 255, .11) 50%,
+        rgba(var(--c-blue), .05) 65%,
+        transparent);
+    filter: blur(26px);
+    transform: rotate(16deg) translate3d(0, 0, 0);
+    opacity: 0;
+    animation: c-sweep 21s ease-in-out infinite;
+    animation-delay: 7s;
+    will-change: transform, opacity;
 }
 
-.ambient-meteor.m3 {
-    top: 62%; left: -12%;
-    width: 110px;
-    animation: amb-meteor 34s ease-in infinite;
-    animation-delay: 22s;
+.ambient-sweep.s2 {
+    width: 20vw;
+    animation-duration: 31s;
+    animation-delay: 17s;
 }
 
-@keyframes amb-meteor {
-    0%      { transform: translate3d(0, 0, 0) rotate(24deg) scaleX(.4);  opacity: 0; }
-    3%      { opacity: .9; }
-    11%     { opacity: .85; }
-    16%     { transform: translate3d(130vw, 46vh, 0) rotate(24deg) scaleX(1); opacity: 0; }
-    100%    { transform: translate3d(130vw, 46vh, 0) rotate(24deg) scaleX(1); opacity: 0; }
+@keyframes c-sweep {
+    0%   { transform: rotate(16deg) translate3d(0, 0, 0);     opacity: 0; }
+    8%   { opacity: .7; }
+    45%  { opacity: .85; }
+    75%  { opacity: 0; }
+    100% { transform: rotate(16deg) translate3d(195vw, 0, 0); opacity: 0; }
 }
 
-/* --- Horizon glow: grounds the page with a cinematic light floor --- */
+/* --- Pointer-reactive glow (deepest parallax layer) --- */
+.ambient-cursor {
+    position: absolute;
+    left: 50%;
+    top: 45%;
+    width: 60vmax;
+    height: 60vmax;
+    margin: -30vmax 0 0 -30vmax;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+        rgba(var(--c-blue), .16) 0%,
+        rgba(var(--c-indigo), .08) 40%,
+        transparent 68%);
+    filter: blur(62px);
+    transform: translate3d(calc(var(--mx) * 24px), calc(var(--my) * 24px), 0);
+    transition: transform 1.6s cubic-bezier(.22, .61, .36, 1);
+    animation: c-cursor 18s ease-in-out infinite alternate;
+    will-change: transform;
+}
+
+@keyframes c-cursor {
+    0%   { opacity: .5; }
+    100% { opacity: .92; }
+}
+
+/* --- Light floor at the base of the viewport --- */
 .ambient-horizon {
     position: absolute;
     left: -10%;
@@ -767,72 +786,52 @@ body::after {
     bottom: -18vh;
     height: 46vh;
     background: radial-gradient(ellipse 60% 100% at 50% 100%,
-        rgba(var(--amb-sky), .22) 0%,
-        rgba(var(--amb-indigo), .12) 42%,
+        rgba(var(--c-blue), .22) 0%,
+        rgba(var(--c-teal), .12) 42%,
         transparent 72%);
-    filter: blur(46px);
-    animation: amb-horizon 22s ease-in-out infinite alternate;
+    filter: blur(48px);
+    animation: c-horizon 24s ease-in-out infinite alternate;
     will-change: transform, opacity;
 }
 
-@keyframes amb-horizon {
-    0%   { transform: translate3d(0, 4vh, 0) scaleY(.9);  opacity: .5; }
-    100% { transform: translate3d(0, 0, 0) scaleY(1.12);  opacity: .95; }
+@keyframes c-horizon {
+    0%   { transform: translate3d(0, 4vh, 0) scaleY(.9); opacity: .5; }
+    100% { transform: translate3d(0, 0, 0) scaleY(1.12); opacity: .95; }
 }
 
-/* --- Pointer-reactive ambient glow (deepest parallax layer) --- */
-.ambient-cursor {
-    position: absolute;
-    left: 50%;
-    top: 45%;
-    width: 62vmax;
-    height: 62vmax;
-    margin: -31vmax 0 0 -31vmax;
-    border-radius: 50%;
-    background: radial-gradient(circle,
-        rgba(var(--amb-sky), .17) 0%,
-        rgba(var(--amb-indigo), .09) 38%,
-        transparent 68%);
-    filter: blur(60px);
-    opacity: .85;
-    transform: translate3d(calc(var(--mx) * 26px), calc(var(--my) * 26px), 0);
-    transition: transform 1.6s cubic-bezier(.22, .61, .36, 1);
-    animation: amb-cursor-breathe 16s ease-in-out infinite alternate;
-    will-change: transform;
-}
-
-@keyframes amb-cursor-breathe {
-    0%   { opacity: .55; }
-    100% { opacity: .95; }
-}
-
-/* --- Depth vignette: protects text contrast, adds cinema framing --- */
+/* --- Vignette: frames the page and protects text contrast --- */
 .ambient-vignette {
     position: absolute;
     inset: 0;
     background:
-        radial-gradient(125% 95% at 50% 38%, transparent 42%, rgba(1, 5, 14, .58) 100%),
-        linear-gradient(to bottom, rgba(1, 5, 14, .34) 0%, transparent 22%, transparent 74%, rgba(1, 5, 14, .42) 100%);
+        radial-gradient(125% 95% at 50% 38%, transparent 40%, rgba(1, 4, 12, .62) 100%),
+        linear-gradient(to bottom, rgba(1, 4, 12, .38) 0%, transparent 22%, transparent 74%, rgba(1, 4, 12, .44) 100%);
 }
 
-/* --- Slow hue breathing across the whole stage --- */
-.ambient-tint {
+/* --- Film grain: the cinematic finish --- */
+.ambient-grain {
     position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(var(--amb-indigo), .10), transparent 50%, rgba(var(--amb-cyan), .08));
-    animation: amb-tint 30s ease-in-out infinite alternate;
-    will-change: opacity;
+    /* just enough overscan to cover the ±3% jitter without a huge raster */
+    inset: -15%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: .05;
+    animation: c-grain .9s steps(6) infinite;
+    will-change: transform;
 }
 
-@keyframes amb-tint {
-    0%   { opacity: .35; }
-    50%  { opacity: .75; }
-    100% { opacity: .45; }
+@keyframes c-grain {
+    0%   { transform: translate3d(0, 0, 0); }
+    20%  { transform: translate3d(-3%, 2%, 0); }
+    40%  { transform: translate3d(2%, -3%, 0); }
+    60%  { transform: translate3d(-2%, -2%, 0); }
+    80%  { transform: translate3d(3%, 1%, 0); }
+    100% { transform: translate3d(0, 0, 0); }
 }
 
 /* =================================================================
-   ✦ CARD AMBIENT LIGHTING
-   Pseudo-elements sit at z-index:-1 so text always stays on top.
+   ✦ CARD LIGHTING
+   Pseudo-elements sit at z-index:-1 inside an isolated stacking
+   context, so text and links always paint on top.
    ================================================================= */
 
 .big-card,
@@ -846,7 +845,19 @@ body::after {
     isolation: isolate;
 }
 
-/* Pulsing ambient glow behind each card */
+/* Glass surface */
+.big-card,
+.project-card,
+.problem-box,
+.journey-box {
+    overflow: hidden;
+    background:
+        linear-gradient(160deg, rgba(226, 240, 255, .075) 0%, rgba(226, 240, 255, .026) 42%, rgba(226, 240, 255, .05) 100%);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+}
+
+/* Pulsing glow behind each card */
 .big-card::before,
 .project-card::before,
 .problem-box::before,
@@ -856,14 +867,27 @@ body::after {
     inset: -1px;
     z-index: -1;
     border-radius: inherit;
-    background: radial-gradient(78% 120% at 50% 0%, rgba(var(--amb-sky), .16), transparent 68%);
+    background: radial-gradient(78% 120% at 50% 0%, rgba(var(--c-blue), .16), transparent 68%);
     opacity: .5;
-    animation: amb-card-pulse 9s ease-in-out infinite;
+    animation: c-card-pulse 9s ease-in-out infinite;
     transition: opacity .45s ease;
     pointer-events: none;
 }
 
-@keyframes amb-card-pulse {
+/* alternate cards glow violet, so the page is not single-hue */
+.project-card:nth-of-type(2n)::before,
+.journey-box:nth-of-type(2n)::before,
+.big-card:nth-of-type(2n)::before {
+    background: radial-gradient(78% 120% at 50% 0%, rgba(var(--c-violet), .16), transparent 68%);
+}
+
+.project-card:nth-of-type(3n)::before,
+.journey-box:nth-of-type(3n)::before,
+.big-card:nth-of-type(3n)::before {
+    background: radial-gradient(78% 120% at 50% 0%, rgba(var(--c-teal), .15), transparent 68%);
+}
+
+@keyframes c-card-pulse {
     0%, 100% { opacity: .34; }
     50%      { opacity: .68; }
 }
@@ -875,18 +899,7 @@ body::after {
     opacity: 1;
 }
 
-/* Glassy sheen + slow shimmer sweep inside cards */
-.big-card,
-.project-card,
-.problem-box,
-.journey-box {
-    overflow: hidden;
-    background:
-        linear-gradient(160deg, rgba(255, 255, 255, .075) 0%, rgba(255, 255, 255, .028) 42%, rgba(255, 255, 255, .05) 100%);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-}
-
+/* Slow shimmer crossing each card */
 .big-card::after,
 .project-card::after,
 .problem-box::after,
@@ -898,20 +911,19 @@ body::after {
     width: 45%;
     height: 220%;
     z-index: -1;
-    background: linear-gradient(90deg, transparent, rgba(224, 244, 255, .10), transparent);
+    background: linear-gradient(90deg, transparent, rgba(230, 244, 255, .10), transparent);
     transform: rotate(18deg);
     opacity: 0;
-    animation: amb-card-sheen 14s ease-in-out infinite;
+    animation: c-card-sheen 14s ease-in-out infinite;
     pointer-events: none;
 }
 
-@keyframes amb-card-sheen {
-    0%, 62%  { transform: rotate(18deg) translate3d(0, 0, 0); opacity: 0; }
-    70%      { opacity: .9; }
-    100%     { transform: rotate(18deg) translate3d(340%, 0, 0); opacity: 0; }
+@keyframes c-card-sheen {
+    0%, 62% { transform: rotate(18deg) translate3d(0, 0, 0);    opacity: 0; }
+    70%     { opacity: .9; }
+    100%    { transform: rotate(18deg) translate3d(340%, 0, 0); opacity: 0; }
 }
 
-/* Stagger the sheen so cards shimmer at different moments */
 .big-card:nth-of-type(2n)::after,
 .project-card:nth-of-type(2n)::after,
 .journey-box:nth-of-type(2n)::after { animation-delay: -4.5s; }
@@ -920,203 +932,210 @@ body::after {
 .project-card:nth-of-type(3n)::after,
 .journey-box:nth-of-type(3n)::after { animation-delay: -9s; }
 
-/* Warmer, deeper lift on hover */
-.big-card:hover,
-.project-card:hover,
-.problem-box:hover,
-.journey-box:hover,
-.edu-box:hover,
-.result-box:hover {
-    box-shadow:
-        0 18px 48px rgba(0, 0, 0, .55),
-        0 0 24px rgba(var(--amb-sky), .22),
-        inset 0 1px 0 rgba(255, 255, 255, .10);
-}
-
-/* Nested boxes: lighter treatment, no sheen (avoids double motion) */
+/* Nested boxes: lighter treatment, no shimmer */
 .edu-box,
 .result-box {
-    background: linear-gradient(160deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, .025));
+    background: linear-gradient(160deg, rgba(226, 240, 255, .06), rgba(226, 240, 255, .025));
 }
 
-/* Profile portrait: breathing halo */
+/* Halo behind the profile block */
 .profile-card::before {
     content: "";
     position: absolute;
     left: 50%;
     top: -6%;
-    width: 62vmin;
-    height: 62vmin;
-    max-width: 520px;
-    max-height: 520px;
+    width: 64vmin;
+    height: 64vmin;
+    max-width: 540px;
+    max-height: 540px;
     z-index: -1;
     transform: translate(-50%, 0);
-    background: radial-gradient(circle, rgba(var(--amb-sky), .20), rgba(var(--amb-indigo), .10) 45%, transparent 70%);
-    filter: blur(30px);
-    animation: amb-halo 11s ease-in-out infinite;
+    background: radial-gradient(circle,
+        rgba(var(--c-blue), .20),
+        rgba(var(--c-violet), .11) 45%,
+        transparent 70%);
+    filter: blur(32px);
+    animation: c-halo 11s ease-in-out infinite;
     pointer-events: none;
 }
 
-@keyframes amb-halo {
+@keyframes c-halo {
     0%, 100% { opacity: .55; transform: translate(-50%, 0) scale(1); }
     50%      { opacity: .95; transform: translate(-50%, 0) scale(1.08); }
 }
 
-.profile img {
-    animation: amb-portrait 12s ease-in-out infinite;
-}
-
-@keyframes amb-portrait {
-    0%, 100% { box-shadow: 0 10px 30px rgba(0, 0, 0, .6), 0 0 20px rgba(var(--amb-sky), .35); }
-    50%      { box-shadow: 0 14px 38px rgba(0, 0, 0, .7), 0 0 32px rgba(var(--amb-violet), .45); }
-}
-
 /* =================================================================
-   ✦ PROFESSIONAL PHOTO FRAME
-   .photo-frame is injected around the portrait by ambient.js.
-   If JS is unavailable the original image styling remains as-is.
+   ✦ PHOTO FRAME — editorial gallery mount
+   Structure injected by ambient.js:
+   .photo-frame > .photo-inner > img
+   Outer holds the offset rule + corner brackets (overflow visible),
+   inner clips the portrait and its light sweep.
    ================================================================= */
 
 .photo-frame {
     position: relative;
     display: inline-block;
-    padding: 3px;                 /* this gap is the animated ring */
-    border-radius: 26px;
-    overflow: hidden;
-    isolation: isolate;
-    background: #05101f;
-    box-shadow:
-        0 26px 60px rgba(0, 0, 0, .62),
-        0 0 42px rgba(var(--amb-sky), .24);
-    animation: amb-frame-glow 12s ease-in-out infinite;
-    transition: transform .45s cubic-bezier(.22, .61, .36, 1), box-shadow .45s ease;
+    margin: 18px 0 8px;
+    transition: transform .5s cubic-bezier(.22, .61, .36, 1);
 }
 
-@keyframes amb-frame-glow {
-    0%, 100% { box-shadow: 0 26px 60px rgba(0, 0, 0, .62), 0 0 42px rgba(var(--amb-sky), .24); }
-    50%      { box-shadow: 0 30px 70px rgba(0, 0, 0, .70), 0 0 56px rgba(var(--amb-violet), .34); }
-}
-
-/* Rotating conic ring — visible only through the 3px padding gap */
+/* Offset hairline rule floating outside the photo */
 .photo-frame::before {
     content: "";
     position: absolute;
-    inset: -45%;
-    z-index: 0;
-    background: conic-gradient(from 0deg,
-        #38bdf8 0%,
-        #6366f1 22%,
-        #8b5cf6 42%,
-        #22d3ee 66%,
-        #38bdf8 88%,
-        #38bdf8 100%);
-    animation: amb-ring 9s linear infinite;
-    will-change: transform;
+    inset: -17px;
+    border: 1px solid rgba(var(--c-blue), .32);
+    border-radius: 3px;
+    animation: c-rule 9s ease-in-out infinite;
+    pointer-events: none;
 }
 
-@keyframes amb-ring {
-    from { transform: rotate(0deg); }
-    to   { transform: rotate(360deg); }
+@keyframes c-rule {
+    0%, 100% { opacity: .5;  transform: scale(1); }
+    50%      { opacity: .95; transform: scale(1.018); }
 }
 
-/* The portrait itself: clean, no gradient padding, dark bezel behind */
-.profile .photo-frame img {
+/* Corner brackets, drawn with eight gradient bars */
+.photo-frame::after {
+    content: "";
+    position: absolute;
+    top: -17px;
+    right: -17px;
+    bottom: -17px;
+    left: -17px;
+    pointer-events: none;
+    background-image:
+        linear-gradient(#22d3ee, #22d3ee), linear-gradient(#22d3ee, #22d3ee),
+        linear-gradient(#a78bfa, #a78bfa), linear-gradient(#a78bfa, #a78bfa),
+        linear-gradient(#22d3ee, #22d3ee), linear-gradient(#22d3ee, #22d3ee),
+        linear-gradient(#a78bfa, #a78bfa), linear-gradient(#a78bfa, #a78bfa);
+    background-repeat: no-repeat;
+    background-size:
+        22px 2px, 2px 22px,   /* top-left    */
+        22px 2px, 2px 22px,   /* top-right   */
+        22px 2px, 2px 22px,   /* bottom-right*/
+        22px 2px, 2px 22px;   /* bottom-left */
+    background-position:
+        left top, left top,
+        right top, right top,
+        right bottom, right bottom,
+        left bottom, left bottom;
+    transition:
+        top .5s cubic-bezier(.22, .61, .36, 1),
+        right .5s cubic-bezier(.22, .61, .36, 1),
+        bottom .5s cubic-bezier(.22, .61, .36, 1),
+        left .5s cubic-bezier(.22, .61, .36, 1),
+        opacity .4s ease;
+    opacity: .85;
+}
+
+/* Clipping shell around the portrait */
+.photo-inner {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    border-radius: 4px;
+    isolation: isolate;
+    background: #061020;
+    box-shadow:
+        0 28px 64px rgba(0, 0, 0, .66),
+        0 0 0 1px rgba(var(--c-blue), .26),
+        0 0 40px rgba(var(--c-blue), .18);
+    animation: c-frame-glow 13s ease-in-out infinite;
+}
+
+/* glow cycles through the accent hues */
+@keyframes c-frame-glow {
+    0%, 100% {
+        box-shadow: 0 28px 64px rgba(0, 0, 0, .66),
+                    0 0 0 1px rgba(var(--c-blue), .26),
+                    0 0 40px rgba(var(--c-blue), .18);
+    }
+    33% {
+        box-shadow: 0 30px 68px rgba(0, 0, 0, .70),
+                    0 0 0 1px rgba(var(--c-violet), .30),
+                    0 0 52px rgba(var(--c-violet), .24);
+    }
+    66% {
+        box-shadow: 0 30px 68px rgba(0, 0, 0, .70),
+                    0 0 0 1px rgba(var(--c-cyan), .30),
+                    0 0 52px rgba(var(--c-cyan), .22);
+    }
+}
+
+/* The portrait: clean edge-to-edge, no padded gradient border */
+.profile .photo-inner img {
     position: relative;
     z-index: 1;
     display: block;
-    width: 196px;
-    height: 226px;
+    width: 200px;
+    height: 234px;
     padding: 0;
-    background: #05101f;
-    border-radius: 23px;
+    background: #061020;
+    border-radius: 0;
     object-fit: cover;
     box-shadow: none;
     animation: none;
-    transition: filter .45s ease, transform .45s ease;
-    filter: saturate(106%) contrast(104%);
+    filter: saturate(105%) contrast(104%);
+    transition: filter .45s ease, transform .6s cubic-bezier(.22, .61, .36, 1);
 }
 
-/* Glass sweep + top highlight across the portrait */
-.photo-frame::after {
+/* Light sweep travelling across the portrait */
+.photo-inner::after {
     content: "";
     position: absolute;
     inset: 0;
     z-index: 2;
-    border-radius: 26px;
     pointer-events: none;
     background:
-        linear-gradient(115deg,
+        linear-gradient(112deg,
             transparent 34%,
-            rgba(255, 255, 255, .16) 46%,
-            rgba(255, 255, 255, .04) 52%,
+            rgba(255, 255, 255, .17) 46%,
+            rgba(255, 255, 255, .04) 53%,
             transparent 64%),
-        linear-gradient(180deg, rgba(255, 255, 255, .10) 0%, transparent 26%);
+        linear-gradient(180deg, rgba(255, 255, 255, .10) 0%, transparent 24%);
     background-size: 260% 100%, 100% 100%;
-    background-position: 180% 0, 0 0;
-    animation: amb-frame-sweep 11s ease-in-out infinite;
+    background-position: 190% 0, 0 0;
+    animation: c-frame-sweep 12s ease-in-out infinite;
 }
 
-@keyframes amb-frame-sweep {
-    0%, 58%  { background-position: 180% 0, 0 0; }
-    100%     { background-position: -60% 0, 0 0; }
+@keyframes c-frame-sweep {
+    0%, 58% { background-position: 190% 0, 0 0; }
+    100%    { background-position: -70% 0, 0 0; }
 }
 
-/* Neutralise the old hover so it doesn't fight the frame */
-.profile .photo-frame img:hover {
-    transform: none;
+/* Hover: lift the mount, push the brackets outward, brighten the photo */
+.photo-frame:hover {
+    transform: translateY(-6px);
+}
+
+.photo-frame:hover::after {
+    top: -25px;
+    right: -25px;
+    bottom: -25px;
+    left: -25px;
+    opacity: 1;
+}
+
+.photo-frame:hover .photo-inner img {
+    filter: saturate(114%) contrast(107%) brightness(105%);
+    transform: scale(1.04);
+}
+
+/* neutralise the no-JS fallback rules once the frame exists */
+.profile .photo-inner img:hover {
     box-shadow: none;
 }
 
-/* pause the glow cycle on hover so the hover shadow can take over */
-.photo-frame:hover {
-    animation: none;
-    transform: translateY(-6px) scale(1.03);
-    box-shadow:
-        0 34px 74px rgba(0, 0, 0, .68),
-        0 0 62px rgba(var(--amb-sky), .42);
-}
-
-.photo-frame:hover img {
-    filter: saturate(115%) contrast(107%) brightness(104%);
-}
-
-/* Headings pick up a faint luminous glow */
-.profile h1,
-.page-title h1,
-.projects h1,
-.problem-section h1,
-.journey-section h1 {
-    text-shadow: 0 0 26px rgba(var(--amb-sky), .30);
-}
-
-/* Buttons: living gradient + glow */
-.btn {
-    background: linear-gradient(115deg, #38bdf8, #6366f1, #22d3ee, #38bdf8);
-    background-size: 300% 100%;
-    animation: amb-btn 12s ease infinite;
-    box-shadow: 0 6px 20px rgba(var(--amb-sky), .22);
-}
-
-@keyframes amb-btn {
-    0%, 100% { background-position: 0% 50%; }
-    50%      { background-position: 100% 50%; }
-}
-
-.btn:hover {
-    box-shadow: 0 0 26px rgba(var(--amb-sky), .55), 0 8px 26px rgba(0, 0, 0, .4);
-}
-
 /* =================================================================
-   ✦ SCROLL REVEAL (enabled only when JS is active)
+   ✦ SCROLL REVEAL (only active once JS confirms support)
    ================================================================= */
 
-/* Hidden state is driven by html.js-reveal so it applies before first paint
-   (no flash of content). JS removes the class if it cannot take over. */
+html.js-reveal .profile-card,
 html.js-reveal .big-card,
 html.js-reveal .project-card,
 html.js-reveal .problem-box,
-html.js-reveal .journey-box,
-html.js-reveal .profile-card {
+html.js-reveal .journey-box {
     opacity: 0;
     transform: translate3d(0, 26px, 0);
     transition:
@@ -1125,13 +1144,13 @@ html.js-reveal .profile-card {
     will-change: opacity, transform;
 }
 
-html.js-reveal .amb-in {
+html.js-reveal .c-in {
     opacity: 1;
     transform: none;
 }
 
-/* Once revealed, hand control back to the original hover transition */
-html.js-reveal .amb-done {
+/* hand control back to the hover transition once revealed */
+html.js-reveal .c-done {
     transition: all .3s ease;
     will-change: auto;
 }
@@ -1141,26 +1160,24 @@ html.js-reveal .amb-done {
    ================================================================= */
 
 @media (max-width: 900px) {
-    .ambient-beam.b2 { display: none; }
-    .ambient-grid { background-size: 48px 48px; }
-    .ambient-orb { filter: blur(52px); }
-    .ambient-cursor { filter: blur(44px); opacity: .6; }
-    .ambient-meteor.m3 { display: none; }
+    .ambient-ray.r2 { display: none; }
+    .ambient-glow { filter: blur(54px); }
+    .ambient-cursor { filter: blur(46px); opacity: .6; }
     .ambient-horizon { filter: blur(34px); }
-    body::before { filter: blur(30px) saturate(110%); }
-    body::after  { filter: blur(34px); }
-    .bg::after   { filter: blur(26px); }
+    .bg::after { filter: blur(26px); }
+    body::before { filter: blur(22px); opacity: .6; }
+    body::after { filter: blur(34px); }
 }
 
 @media (max-width: 600px) {
-    /* Trim the heaviest layers on small screens, keep the premium feel */
-    .ambient-beam,
-    .ambient-sweep.s2 { display: none; }
-
-    .ambient-orb.o4,
+    /* trim the heaviest layers, keep the composition intact */
+    .ambient-ray,
     .ambient-cursor,
-    .ambient-meteor.m2 { display: none; }
-    .ambient-orb { filter: blur(40px); }
+    .ambient-sweep.s2,
+    .ambient-grain { display: none; }
+
+    .ambient-glow.g4 { display: none; }
+    .ambient-glow { filter: blur(42px); }
     .ambient-horizon { filter: blur(28px); height: 34vh; }
 
     .big-card,
@@ -1176,50 +1193,67 @@ html.js-reveal .amb-done {
     .problem-box::after,
     .journey-box::after { display: none; }
 
-    .profile-card::before { width: 78vmin; height: 78vmin; }
+    .profile-card::before { width: 80vmin; height: 80vmin; }
 
-    /* keep the portrait's aspect ratio instead of squashing it to a square */
-    .photo-frame,
-    .photo-frame::after { border-radius: 20px; }
+    /* keep the portrait's aspect ratio instead of squashing it */
+    .profile .photo-inner img {
+        width: 158px;
+        height: 185px;
+    }
 
-    .profile .photo-frame img {
-        width: 152px;
-        height: 178px;
-        border-radius: 17px;
+    .photo-frame::before,
+    .photo-frame::after {
+        inset: -12px;
+    }
+
+    .photo-frame::after {
+        top: -12px; right: -12px; bottom: -12px; left: -12px;
+        background-size:
+            16px 2px, 2px 16px,
+            16px 2px, 2px 16px,
+            16px 2px, 2px 16px,
+            16px 2px, 2px 16px;
+    }
+
+    .photo-frame:hover::after {
+        top: -16px; right: -16px; bottom: -16px; left: -16px;
     }
 }
 
-/* Touch devices: parallax is meaningless, keep layers still-ish */
+/* Touch devices: pointer parallax is meaningless */
 @media (hover: none) {
     .bg { transform: scale(1.04); }
-    .ambient-grid { transform: none; }
+    .ambient-hairlines,
     .ambient-cursor { transform: none; }
 }
 
 /* =================================================================
-   ✦ ACCESSIBILITY: honour reduced-motion
+   ✦ ACCESSIBILITY — honour reduced-motion
    ================================================================= */
 
 @media (prefers-reduced-motion: reduce) {
     .bg,
+    .bg::after,
     body::before,
     body::after,
-    .ambient-grid,
-    .ambient-orb,
-    .ambient-beam,
-    .ambient-particle,
+    .ambient-hairlines,
+    .ambient-ray,
+    .ambient-glow,
+    .ambient-dust,
+    .ambient-mote,
     .ambient-sweep,
     .ambient-cursor,
-    .ambient-tint,
-    .ambient-stars,
-    .ambient-meteor,
     .ambient-horizon,
-    .bg::after,
-    .profile img,
+    .ambient-grain,
+    .profile h1,
+    .page-title h1,
+    .projects h1,
+    .problem-section h1,
+    .journey-section h1,
     .profile-card::before,
-    .photo-frame,
     .photo-frame::before,
-    .photo-frame::after,
+    .photo-inner,
+    .photo-inner::after,
     .btn,
     .big-card::before,
     .project-card::before,
@@ -1234,39 +1268,33 @@ html.js-reveal .amb-done {
     }
 
     .bg { transform: scale(1.02); }
-    .ambient-particle,
+
+    .ambient-mote,
     .ambient-sweep,
-    .ambient-meteor { display: none; }
+    .ambient-grain { display: none; }
 
-    /* stars stay, just static */
-    .ambient-stars.far  { opacity: .45; }
-    .ambient-stars.near { opacity: .7; }
-
-    .ambient-horizon { opacity: .7; }
-    .bg::after { opacity: .8; }
-
-    /* frame keeps a static gradient ring instead of rotating */
-    .photo-frame::before {
-        background: linear-gradient(135deg, #38bdf8, #6366f1 45%, #8b5cf6 75%, #22d3ee);
-    }
-
-    .photo-frame::after {
-        background: linear-gradient(180deg, rgba(255, 255, 255, .10) 0%, transparent 26%);
-    }
-
-    .ambient-orb { opacity: .5; }
-    .ambient-beam { opacity: .4; }
+    .ambient-dust.far  { opacity: .45; }
+    .ambient-dust.near { opacity: .7; }
+    .ambient-glow      { opacity: .5; }
+    .ambient-ray       { opacity: .4; }
+    .ambient-horizon   { opacity: .7; }
+    .bg::after         { opacity: .8; }
 
     .big-card::before,
     .project-card::before,
     .problem-box::before,
     .journey-box::before { opacity: .45; }
 
+    /* static sheen removed, static frame highlight kept */
+    .photo-inner::after {
+        background: linear-gradient(180deg, rgba(255, 255, 255, .10) 0%, transparent 24%);
+    }
+
+    html.js-reveal .profile-card,
     html.js-reveal .big-card,
     html.js-reveal .project-card,
     html.js-reveal .problem-box,
-    html.js-reveal .journey-box,
-    html.js-reveal .profile-card {
+    html.js-reveal .journey-box {
         opacity: 1;
         transform: none;
         transition: none;
