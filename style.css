@@ -13,11 +13,11 @@ body {
 }
 
 /* ================= BACKGROUND ================= */
+/* Fully generated in CSS — no image asset. */
 .bg {
     position: fixed;
     width: 100%;
     height: 100%;
-    background: url('bg.jpg') no-repeat center/cover;
     z-index: -1;
 }
 
@@ -26,7 +26,6 @@ body {
     position: absolute;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.65);
 }
 
 /* ================= PROFILE ================= */
@@ -394,19 +393,39 @@ body {
     background-attachment: fixed;
 }
 
-/* ---------- Layer 0: photo base (existing .bg) ---------- */
+/* ---------- Layer 0: painted deep-space base (no image) ---------- */
 .bg {
     z-index: -6;
-    transform: translate3d(calc(var(--mx) * -8px), calc(var(--my) * -8px), 0) scale(1.06);
+    background:
+        /* upper atmosphere bloom */
+        radial-gradient(ellipse 95% 62% at 50% -12%, rgba(var(--amb-indigo), .34) 0%, transparent 68%),
+        /* lower corner light pools */
+        radial-gradient(ellipse 72% 52% at 12% 112%, rgba(var(--amb-cyan), .20) 0%, transparent 70%),
+        radial-gradient(ellipse 64% 46% at 88% 106%, rgba(var(--amb-violet), .22) 0%, transparent 70%),
+        /* deep night sky */
+        linear-gradient(180deg, #04091a 0%, #061229 38%, #040a18 72%, #01050e 100%);
+    /* Static paint: all motion comes from the layers above, so this
+       full-screen layer never needs re-rasterising. */
+    transform: translate3d(calc(var(--mx) * -6px), calc(var(--my) * -6px), 0) scale(1.04);
     transition: transform 1.2s cubic-bezier(.22, .61, .36, 1);
     will-change: transform;
 }
 
+/* Faint drifting nebula clouds layered over the base */
 .bg::after {
-    /* keep the existing darkening, add a cool cinematic grade */
     background:
-        radial-gradient(100% 100% at 50% 0%, rgba(6, 23, 51, .55) 0%, rgba(2, 8, 20, .82) 70%),
-        rgba(0, 0, 0, .55);
+        radial-gradient(42% 34% at 28% 22%, rgba(var(--amb-sky), .16) 0%, transparent 66%),
+        radial-gradient(38% 30% at 74% 34%, rgba(var(--amb-violet), .14) 0%, transparent 66%),
+        radial-gradient(50% 38% at 52% 78%, rgba(var(--amb-indigo), .16) 0%, transparent 68%);
+    filter: blur(34px);
+    animation: amb-nebula 56s ease-in-out infinite alternate;
+    will-change: transform, opacity;
+}
+
+@keyframes amb-nebula {
+    0%   { transform: translate3d(0, 0, 0) scale(1.05);        opacity: .7; }
+    50%  { transform: translate3d(-3%, 2%, 0) scale(1.16);     opacity: 1; }
+    100% { transform: translate3d(2.5%, -2.5%, 0) scale(1.09); opacity: .8; }
 }
 
 /* ---------- Layer 1: slow multi-gradient mesh ---------- */
@@ -658,6 +677,109 @@ body::after {
     100%     { transform: rotate(18deg) translate3d(190vw, 0, 0); opacity: 0; }
 }
 
+/* --- Starfield: one tiny dot replicated via box-shadow (built in JS) --- */
+.ambient-stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    background: transparent;
+    will-change: transform, opacity;
+}
+
+/* far layer — dense, dim, slow */
+.ambient-stars.far {
+    opacity: .5;
+    animation:
+        amb-star-drift 150s linear infinite,
+        amb-twinkle 7s ease-in-out infinite alternate;
+}
+
+/* near layer — sparse, brighter, faster (parallax depth) */
+.ambient-stars.near {
+    opacity: .8;
+    animation:
+        amb-star-drift 90s linear infinite reverse,
+        amb-twinkle 4.5s ease-in-out infinite alternate;
+    animation-delay: 0s, -2s;
+}
+
+@keyframes amb-star-drift {
+    from { transform: translate3d(0, 0, 0); }
+    to   { transform: translate3d(-6vw, -4vh, 0); }
+}
+
+@keyframes amb-twinkle {
+    0%   { opacity: .32; }
+    100% { opacity: .9; }
+}
+
+/* --- Meteors: rare cinematic streaks --- */
+.ambient-meteor {
+    position: absolute;
+    width: 190px;
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(198, 230, 255, .55) 55%,
+        rgba(255, 255, 255, .95) 100%);
+    filter: blur(.6px) drop-shadow(0 0 6px rgba(var(--amb-sky), .8));
+    opacity: 0;
+    will-change: transform, opacity;
+}
+
+.ambient-meteor.m1 {
+    top: 12%; left: -14%;
+    animation: amb-meteor 17s ease-in infinite;
+    animation-delay: 4s;
+}
+
+.ambient-meteor.m2 {
+    top: 34%; left: -18%;
+    width: 140px;
+    animation: amb-meteor 26s ease-in infinite;
+    animation-delay: 13s;
+}
+
+.ambient-meteor.m3 {
+    top: 62%; left: -12%;
+    width: 110px;
+    animation: amb-meteor 34s ease-in infinite;
+    animation-delay: 22s;
+}
+
+@keyframes amb-meteor {
+    0%      { transform: translate3d(0, 0, 0) rotate(24deg) scaleX(.4);  opacity: 0; }
+    3%      { opacity: .9; }
+    11%     { opacity: .85; }
+    16%     { transform: translate3d(130vw, 46vh, 0) rotate(24deg) scaleX(1); opacity: 0; }
+    100%    { transform: translate3d(130vw, 46vh, 0) rotate(24deg) scaleX(1); opacity: 0; }
+}
+
+/* --- Horizon glow: grounds the page with a cinematic light floor --- */
+.ambient-horizon {
+    position: absolute;
+    left: -10%;
+    right: -10%;
+    bottom: -18vh;
+    height: 46vh;
+    background: radial-gradient(ellipse 60% 100% at 50% 100%,
+        rgba(var(--amb-sky), .22) 0%,
+        rgba(var(--amb-indigo), .12) 42%,
+        transparent 72%);
+    filter: blur(46px);
+    animation: amb-horizon 22s ease-in-out infinite alternate;
+    will-change: transform, opacity;
+}
+
+@keyframes amb-horizon {
+    0%   { transform: translate3d(0, 4vh, 0) scaleY(.9);  opacity: .5; }
+    100% { transform: translate3d(0, 0, 0) scaleY(1.12);  opacity: .95; }
+}
+
 /* --- Pointer-reactive ambient glow (deepest parallax layer) --- */
 .ambient-cursor {
     position: absolute;
@@ -849,6 +971,115 @@ body::after {
     50%      { box-shadow: 0 14px 38px rgba(0, 0, 0, .7), 0 0 32px rgba(var(--amb-violet), .45); }
 }
 
+/* =================================================================
+   ✦ PROFESSIONAL PHOTO FRAME
+   .photo-frame is injected around the portrait by ambient.js.
+   If JS is unavailable the original image styling remains as-is.
+   ================================================================= */
+
+.photo-frame {
+    position: relative;
+    display: inline-block;
+    padding: 3px;                 /* this gap is the animated ring */
+    border-radius: 26px;
+    overflow: hidden;
+    isolation: isolate;
+    background: #05101f;
+    box-shadow:
+        0 26px 60px rgba(0, 0, 0, .62),
+        0 0 42px rgba(var(--amb-sky), .24);
+    animation: amb-frame-glow 12s ease-in-out infinite;
+    transition: transform .45s cubic-bezier(.22, .61, .36, 1), box-shadow .45s ease;
+}
+
+@keyframes amb-frame-glow {
+    0%, 100% { box-shadow: 0 26px 60px rgba(0, 0, 0, .62), 0 0 42px rgba(var(--amb-sky), .24); }
+    50%      { box-shadow: 0 30px 70px rgba(0, 0, 0, .70), 0 0 56px rgba(var(--amb-violet), .34); }
+}
+
+/* Rotating conic ring — visible only through the 3px padding gap */
+.photo-frame::before {
+    content: "";
+    position: absolute;
+    inset: -45%;
+    z-index: 0;
+    background: conic-gradient(from 0deg,
+        #38bdf8 0%,
+        #6366f1 22%,
+        #8b5cf6 42%,
+        #22d3ee 66%,
+        #38bdf8 88%,
+        #38bdf8 100%);
+    animation: amb-ring 9s linear infinite;
+    will-change: transform;
+}
+
+@keyframes amb-ring {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+/* The portrait itself: clean, no gradient padding, dark bezel behind */
+.profile .photo-frame img {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 196px;
+    height: 226px;
+    padding: 0;
+    background: #05101f;
+    border-radius: 23px;
+    object-fit: cover;
+    box-shadow: none;
+    animation: none;
+    transition: filter .45s ease, transform .45s ease;
+    filter: saturate(106%) contrast(104%);
+}
+
+/* Glass sweep + top highlight across the portrait */
+.photo-frame::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    border-radius: 26px;
+    pointer-events: none;
+    background:
+        linear-gradient(115deg,
+            transparent 34%,
+            rgba(255, 255, 255, .16) 46%,
+            rgba(255, 255, 255, .04) 52%,
+            transparent 64%),
+        linear-gradient(180deg, rgba(255, 255, 255, .10) 0%, transparent 26%);
+    background-size: 260% 100%, 100% 100%;
+    background-position: 180% 0, 0 0;
+    animation: amb-frame-sweep 11s ease-in-out infinite;
+}
+
+@keyframes amb-frame-sweep {
+    0%, 58%  { background-position: 180% 0, 0 0; }
+    100%     { background-position: -60% 0, 0 0; }
+}
+
+/* Neutralise the old hover so it doesn't fight the frame */
+.profile .photo-frame img:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+/* pause the glow cycle on hover so the hover shadow can take over */
+.photo-frame:hover {
+    animation: none;
+    transform: translateY(-6px) scale(1.03);
+    box-shadow:
+        0 34px 74px rgba(0, 0, 0, .68),
+        0 0 62px rgba(var(--amb-sky), .42);
+}
+
+.photo-frame:hover img {
+    filter: saturate(115%) contrast(107%) brightness(104%);
+}
+
 /* Headings pick up a faint luminous glow */
 .profile h1,
 .page-title h1,
@@ -914,8 +1145,11 @@ html.js-reveal .amb-done {
     .ambient-grid { background-size: 48px 48px; }
     .ambient-orb { filter: blur(52px); }
     .ambient-cursor { filter: blur(44px); opacity: .6; }
+    .ambient-meteor.m3 { display: none; }
+    .ambient-horizon { filter: blur(34px); }
     body::before { filter: blur(30px) saturate(110%); }
     body::after  { filter: blur(34px); }
+    .bg::after   { filter: blur(26px); }
 }
 
 @media (max-width: 600px) {
@@ -924,8 +1158,10 @@ html.js-reveal .amb-done {
     .ambient-sweep.s2 { display: none; }
 
     .ambient-orb.o4,
-    .ambient-cursor { display: none; }
+    .ambient-cursor,
+    .ambient-meteor.m2 { display: none; }
     .ambient-orb { filter: blur(40px); }
+    .ambient-horizon { filter: blur(28px); height: 34vh; }
 
     .big-card,
     .project-card,
@@ -941,6 +1177,16 @@ html.js-reveal .amb-done {
     .journey-box::after { display: none; }
 
     .profile-card::before { width: 78vmin; height: 78vmin; }
+
+    /* keep the portrait's aspect ratio instead of squashing it to a square */
+    .photo-frame,
+    .photo-frame::after { border-radius: 20px; }
+
+    .profile .photo-frame img {
+        width: 152px;
+        height: 178px;
+        border-radius: 17px;
+    }
 }
 
 /* Touch devices: parallax is meaningless, keep layers still-ish */
@@ -965,8 +1211,15 @@ html.js-reveal .amb-done {
     .ambient-sweep,
     .ambient-cursor,
     .ambient-tint,
+    .ambient-stars,
+    .ambient-meteor,
+    .ambient-horizon,
+    .bg::after,
     .profile img,
     .profile-card::before,
+    .photo-frame,
+    .photo-frame::before,
+    .photo-frame::after,
     .btn,
     .big-card::before,
     .project-card::before,
@@ -982,7 +1235,24 @@ html.js-reveal .amb-done {
 
     .bg { transform: scale(1.02); }
     .ambient-particle,
-    .ambient-sweep { display: none; }
+    .ambient-sweep,
+    .ambient-meteor { display: none; }
+
+    /* stars stay, just static */
+    .ambient-stars.far  { opacity: .45; }
+    .ambient-stars.near { opacity: .7; }
+
+    .ambient-horizon { opacity: .7; }
+    .bg::after { opacity: .8; }
+
+    /* frame keeps a static gradient ring instead of rotating */
+    .photo-frame::before {
+        background: linear-gradient(135deg, #38bdf8, #6366f1 45%, #8b5cf6 75%, #22d3ee);
+    }
+
+    .photo-frame::after {
+        background: linear-gradient(180deg, rgba(255, 255, 255, .10) 0%, transparent 26%);
+    }
 
     .ambient-orb { opacity: .5; }
     .ambient-beam { opacity: .4; }

@@ -44,7 +44,14 @@
         var stage = el('ambient');
         stage.setAttribute('aria-hidden', 'true');
 
+        var small = window.innerWidth < 700;
+
         stage.appendChild(el('ambient-grid'));
+
+        /* starfield sits low so the glows wash over it */
+        stage.appendChild(buildStars('far', small ? 45 : 110, 1.6));
+        stage.appendChild(buildStars('near', small ? 18 : 45, 2.6));
+
         stage.appendChild(el('ambient-cursor'));
 
         ['o1', 'o2', 'o3', 'o4'].forEach(function (n) {
@@ -55,15 +62,59 @@
             stage.appendChild(el('ambient-beam ' + n));
         });
 
+        if (!reduceMotion) {
+            ['m1', 'm2', 'm3'].forEach(function (n) {
+                stage.appendChild(el('ambient-meteor ' + n));
+            });
+        }
+
         stage.appendChild(buildParticles());
 
         stage.appendChild(el('ambient-sweep'));
         stage.appendChild(el('ambient-sweep s2'));
 
+        stage.appendChild(el('ambient-horizon'));
         stage.appendChild(el('ambient-tint'));
         stage.appendChild(el('ambient-vignette'));
 
         document.body.insertBefore(stage, document.body.firstChild);
+    }
+
+    /* Starfield: a single tiny dot cloned hundreds of times via box-shadow.
+       Positions use vw/vh so the field stays correct on resize. */
+    function buildStars(variant, count, dotSize) {
+        var layer = el('ambient-stars ' + variant);
+        var shadows = [];
+
+        for (var i = 0; i < count; i++) {
+            var x = (Math.random() * 118 - 9).toFixed(2);
+            var y = (Math.random() * 118 - 9).toFixed(2);
+            var alpha = (0.30 + Math.random() * 0.62).toFixed(2);
+            /* a few stars get a slight spread so they read as brighter */
+            var spread = Math.random() < 0.15 ? '0.7px' : '0';
+
+            shadows.push(x + 'vw ' + y + 'vh 0 ' + spread +
+                ' rgba(228, 243, 255, ' + alpha + ')');
+        }
+
+        layer.style.width = dotSize + 'px';
+        layer.style.height = dotSize + 'px';
+        layer.style.boxShadow = shadows.join(', ');
+        return layer;
+    }
+
+    /* Wrap the portrait so the animated ring/bezel frame can be applied. */
+    function frameProfilePhoto() {
+        var img = document.querySelector('.profile-card img') ||
+                  document.querySelector('.profile img');
+
+        if (!img || !img.parentNode) return;
+        if (img.parentNode.classList.contains('photo-frame')) return;
+
+        var frame = document.createElement('div');
+        frame.className = 'photo-frame';
+        img.parentNode.insertBefore(frame, img);
+        frame.appendChild(img);
     }
 
     function buildParticles() {
@@ -176,6 +227,7 @@
 
     onReady(function () {
         buildStage();
+        frameProfilePhoto();
         initParallax();
         initReveal();
 
