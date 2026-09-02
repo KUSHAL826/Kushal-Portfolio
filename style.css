@@ -346,3 +346,27 @@ h1, h2, h3 {
 .journey-section {
     padding-bottom: 60px;
 }
+/* 🔥 PAGE TITLE FIX */
+.page-title {
+    text-align: center;
+    padding: 30px 10px 10px;
+}
+
+.page-title h1 {
+    font-size: 32px;
+    color: #38bdf8;   /* 🔥 FIXED COLOR */
+    font-weight: bold;
+}
+
+/* 🔥 BIG CARD HEADING ALIGNMENT */
+.big-card h2 {
+    font-size: 26px;
+    margin-bottom: 20px;
+    color: #38bdf8;
+    text-align: center;   /* 🔥 CENTER ALIGN */
+}
+
+/* 🔥 CENTER RESULT BOX CONTENT */
+.result-box {
+    text-align: center;
+}
