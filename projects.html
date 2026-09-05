@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Projects</title>
@@ -16,29 +16,42 @@
 
     <h1>My Projects</h1>
 
+    <p class="subtitle">
+        I identify real problems, then build working systems around them — an IoT livestock monitor that became a
+        filed patent and a published paper, an ML platform that forecasts crop prices, a closed-loop irrigation
+        controller, and a series of Generative AI builds where every concept is backed by running code.
+    </p>
+
     <!-- Project 1 -->
     <div class="project-card">
-        <h2>Livestock Dual Node Monitoring System</h2>
+        <h2>Generative AI — Applied Concept Builds</h2>
 
         <p>
-            <strong>Problem:</strong> Livestock diseases are often detected too late because farmers cannot continuously observe the health and
-            behavior of each animal. This leads to preventable losses and reduced productivity.
+            <strong>Problem:</strong> Reading about Generative AI does not prove you can build with it. I wanted
+            working code behind every concept instead of notes, so I built each one as a small, self-contained application.
         </p>
         <p>
-            <strong>Solution:</strong> I designed and developed a dual-node IoT-based monitoring system. The first node is an ear tag embedded
-            with a temperature sensor and microcontroller to monitor vital body parameters. The second node is a smart collar built with an ESP32
-            and an accelerometer to track movement, activity, and behavioral patterns. Both nodes continuously collect data and transmit it to a
-            web platform.
+            <strong>What I Built:</strong> A progression of builds, each implementing one concept end to end: prompt
+            engineering, model access through API keys, text generation, a working chatbot, structured JSON output for
+            machine-readable responses, embeddings and vector representations, cosine-similarity retrieval, and a
+            Retrieval-Augmented Generation (RAG) flow. Later builds use LangChain to orchestrate the steps and Streamlit
+            to make them interactive. All work is version-controlled and published on GitHub.
         </p>
         <p>
-            <strong>Outcome:</strong> On the platform, the sensor data is combined with real-time analytics to flag abnormal temperature or
-            inactivity, enabling early disease detection and efficient livestock management. The system is designed to be low-cost and scalable for
-            rural usage. This work is the basis of a filed patent (App No. 202641092055) and a published research paper.
+            <strong>AI / Engineering:</strong> Prompt design and iteration; consuming LLM APIs with key handling;
+            constraining model output to a strict JSON schema so downstream code can parse it reliably; generating
+            embeddings and comparing them with cosine similarity for semantic retrieval; assembling a retrieval pipeline
+            that grounds responses in supplied context rather than model memory; chaining components with LangChain;
+            building interfaces with Streamlit.
+        </p>
+        <p>
+            <strong>Impact:</strong> Every concept in my GenAI skill set maps to code I have actually written, and the
+            build order shows deliberate progression from basic prompting to retrieval-grounded systems.
         </p>
 
         <div class="status-box">
-            <strong>Tech:</strong> IoT, ESP32, Temperature & Accelerometer Sensors, Arduino IDE, Web Analytics &nbsp;|&nbsp;
-            <strong>Timeline:</strong> 06/2025 – 06/2026
+            <strong>Tech:</strong> Python, LLM APIs, Prompt Engineering, Structured JSON Output, Embeddings &amp; Vectors,
+            Cosine Similarity, RAG, LangChain, Streamlit, Git &amp; GitHub
         </div>
     </div>
 
@@ -47,82 +60,135 @@
         <h2>Smart Farming Platform — Crop Price Prediction</h2>
 
         <p>
-            <strong>Problem:</strong> Farmers frequently choose crops without knowing how market prices will move, which leads to unstable income
-            and losses when supply exceeds demand.
+            <strong>Problem:</strong> Farmers frequently choose crops without knowing how market prices will move, which
+            leads to unstable income and losses when supply exceeds demand.
         </p>
         <p>
-            <strong>Solution:</strong> I built a full-stack smart farming web application that uses machine learning models to predict future market
-            prices for various crops. The platform takes in land details, resource availability, historical price trends, and market demand, then
-            processes this data through trained models to forecast the most profitable options.
+            <strong>What I Built:</strong> A full-stack web application that uses machine learning models to predict
+            future market prices for various crops. The platform takes in land details, resource availability, historical
+            price trends, and market demand, then processes that data through trained models to surface the most
+            profitable options.
         </p>
         <p>
-            <strong>Outcome:</strong> The application turns raw agricultural data into clear, actionable recommendations, helping farmers make
-            informed decisions, reduce risk, and improve income stability.
+            <strong>AI / Engineering:</strong> The full lifecycle of an AI application in one project — collecting and
+            preparing input data, engineering the feature set, training and applying prediction models in Python, storing
+            and querying records in MySQL, and serving model output through a web interface where a non-technical user can
+            act on it. The core engineering problem is the same one GenAI products face: turn raw data into a model
+            response a user can trust and use.
+        </p>
+        <p>
+            <strong>Impact:</strong> Converts scattered agricultural data into clear crop recommendations, so planting
+            decisions are driven by price trends instead of guesswork.
+        </p>
+        <p>
+            <strong>GenAI extension (planned, not yet implemented):</strong> A natural-language layer over the same
+            predictions, letting a farmer ask a question in plain language and receive an explanation grounded in the
+            model's output.
         </p>
 
         <div class="status-box">
-            <strong>Tech:</strong> Python, Machine Learning, Full-Stack Web, MySQL &nbsp;|&nbsp;
-            <strong>Timeline:</strong> 05/2025
+            <strong>Tech:</strong> Python, Machine Learning, Full-Stack Web, MySQL
         </div>
     </div>
 
     <!-- Project 3 -->
     <div class="project-card">
-        <h2>Smart Irrigation System (IoT + AI)</h2>
+        <h2>Livestock Dual Node Monitoring System</h2>
 
         <p>
-            <strong>Problem:</strong> Traditional irrigation wastes large amounts of water because it is done on fixed schedules rather than actual
-            field conditions.
+            <strong>Problem:</strong> Livestock disease is often caught too late, because a farmer cannot continuously
+            observe the health and behaviour of every animal. The result is preventable loss and reduced productivity.
         </p>
         <p>
-            <strong>Solution:</strong> I engineered an automatic irrigation system that integrates IoT hardware devices with AI-based decision-making
-            algorithms. Soil moisture and environmental sensors continuously feed live data into an intelligent controller, which decides exactly when
-            and how much to irrigate.
+            <strong>What I Built:</strong> A dual-node IoT monitoring system. The first node is an ear tag with a
+            temperature sensor and microcontroller for vital body parameters. The second is a smart collar built on an
+            ESP32 with an accelerometer for movement, activity, and behavioural patterns. Both nodes stream data
+            continuously to a web platform.
         </p>
         <p>
-            <strong>Outcome:</strong> The system automates the irrigation cycle, significantly reduces water wastage, and improves crop yield through
-            data-driven control instead of guesswork.
+            <strong>AI / Engineering:</strong> Distributed system design across two sensor nodes and a server; embedded
+            firmware on the ESP32 via Arduino IDE; continuous real-time data transmission and ingestion; analytics on the
+            incoming stream that flag abnormal temperature or inactivity as early warning signals. Designed under a hard
+            constraint — low cost and scalable for rural deployment — which drove the hardware and architecture choices.
+        </p>
+        <p>
+            <strong>Impact:</strong> Turns continuous sensor data into early disease signals a farmer can act on. The
+            work is the basis of a filed patent (Application No. 202641092055) and a published research paper.
         </p>
 
         <div class="status-box">
-            <strong>Tech:</strong> IoT, AI/ML, Soil Moisture Sensors, Arduino IDE &nbsp;|&nbsp;
-            <strong>Timeline:</strong> 09/2025
+            <strong>Tech:</strong> IoT, ESP32, Temperature &amp; Accelerometer Sensors, Arduino IDE, Real-Time Web Analytics
+            &nbsp;|&nbsp; <strong>Recognition:</strong> Filed patent + published journal paper
         </div>
     </div>
 
     <!-- Project 4 -->
     <div class="project-card">
+        <h2>Smart Irrigation System (IoT + AI)</h2>
+
+        <p>
+            <strong>Problem:</strong> Traditional irrigation runs on fixed schedules rather than actual field conditions,
+            so large amounts of water are wasted.
+        </p>
+        <p>
+            <strong>What I Built:</strong> An automatic irrigation system that integrates IoT hardware with AI-based
+            decision-making. Soil moisture and environmental sensors feed live readings into a controller that decides
+            when to irrigate and how much.
+        </p>
+        <p>
+            <strong>AI / Engineering:</strong> A closed control loop — sensor input, algorithmic decision, physical
+            actuation — running without human intervention. Required real-time data handling, threshold and decision
+            logic over live readings, and integration between the sensing layer and the actuation layer on embedded
+            hardware.
+        </p>
+        <p>
+            <strong>Impact:</strong> Replaces schedule-based watering with data-driven control, reducing water waste and
+            removing manual effort from the irrigation cycle.
+        </p>
+
+        <div class="status-box">
+            <strong>Tech:</strong> IoT, AI/ML Decision Logic, Soil Moisture &amp; Environmental Sensors, Arduino IDE
+        </div>
+    </div>
+
+    <!-- Project 5 -->
+    <div class="project-card">
         <h2>Student ERP System</h2>
 
         <p>
-            <strong>Problem:</strong> Managing student information, academic records, and administrative tasks manually is slow, error-prone, and
-            hard to keep consistent across departments.
+            <strong>Problem:</strong> Managing student information, academic records, and administrative tasks manually is
+            slow, error-prone, and hard to keep consistent across departments.
         </p>
         <p>
-            <strong>Solution:</strong> I developed a Student ERP (Enterprise Resource Planning) system to centralize and automate student-related
-            operations. The system handles student records, academic details, and administrative data through a structured database with a clean,
-            user-friendly interface for managing and retrieving information.
+            <strong>What I Built:</strong> A Student ERP system that centralises and automates student-related operations,
+            handling records, academic details, and administrative data through a structured relational database with an
+            interface for managing and retrieving information.
         </p>
         <p>
-            <strong>Outcome:</strong> The ERP streamlines data management, reduces manual effort and errors, and provides quick, organized access to
-            student information, demonstrating my full-stack and database design skills.
+            <strong>AI / Engineering:</strong> Relational schema design and normalisation, query design over MySQL, and
+            full-stack development connecting the data layer to the interface. This is the data foundation any AI feature
+            depends on — clean, well-modelled, queryable records are what retrieval and model inputs are built from.
+        </p>
+        <p>
+            <strong>Impact:</strong> Replaces manual record-keeping with a single source of truth, cutting repeated effort
+            and keeping student data consistent and quickly retrievable.
         </p>
 
         <div class="status-box">
             <strong>Tech:</strong> Full-Stack Web, MySQL, DBMS &nbsp;|&nbsp;
-            <strong>Focus:</strong> Data Management & Automation
+            <strong>Focus:</strong> Data Modelling &amp; Automation
         </div>
     </div>
 
     <!-- Final Note -->
     <div class="project-note">
         <p>
-            All the projects I work on are built with a strong focus on real-time implementation rather than just theoretical development. 
-            I actively try to develop each project from the basics, understanding both the technical and practical aspects. 
-            My approach involves identifying real-world problems, designing solutions, and continuously improving them through testing and validation. 
-            I believe in building scalable, impactful solutions that can be implemented in real environments. 
-            This mindset helps me grow not only as a developer but also as a problem solver and innovator. 
-            My goal is to turn ideas into practical solutions that create meaningful impact.
+            A pattern runs through this work: I start from a problem someone actually has, build the smallest system that
+            solves it, and take it far enough to run. That has meant writing firmware and designing sensor nodes for
+            livestock monitoring, training and serving prediction models for crop pricing, closing a control loop for
+            irrigation, modelling relational data for an ERP, and implementing GenAI concepts as working applications
+            rather than notes. The livestock system reached a filed patent and a published paper. I am now focused on
+            building GenAI systems with the same approach — real problem first, working implementation second.
         </p>
     </div>
 
