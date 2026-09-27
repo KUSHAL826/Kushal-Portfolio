@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Projects</title>
+    <title>Projects | Kushal YN Gowda</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Generative AI, RAG, and IoT projects built by Kushal YN Gowda. Featuring deployed AI Chatbots, career platforms, and hardware-integrated smart systems.">
     <link rel="stylesheet" href="style.css">
 
     <!-- Ambient background / motion system (visual only) -->
@@ -12,18 +13,127 @@
 
 <body>
 
+<!-- 🔥 BACKGROUND -->
+<div class="bg"></div>
+
 <section class="projects">
 
     <h1>My Projects</h1>
 
     <p class="subtitle">
-        I identify real problems, then build working systems around them — an IoT livestock monitor that became a
-        filed patent and a published paper, an ML platform that forecasts crop prices, a closed-loop irrigation
-        controller, and a series of Generative AI builds where every concept is backed by running code.
+        I identify real problems, then build working systems around them — from deployed Generative AI applications powered by LangChain, Gemini, RAG, and vector search, to an IoT livestock monitor that became a filed patent and a published paper.
     </p>
 
-    <!-- Project 1 -->
+    <h4 class="section-title">Featured Projects</h4>
+
+    <!-- PROJECT 1 — MAIN FEATURED PROJECT: BMSIT College AI Chatbot -->
+    <div class="project-card featured-primary" id="bmsit-chatbot">
+        <div class="project-badge-container">
+            <span class="project-badge featured-primary-badge">★ Primary Featured Project</span>
+            <span class="project-badge">Generative AI</span>
+            <span class="project-badge">RAG</span>
+            <span class="project-badge">LangChain</span>
+            <span class="project-badge">Gemini</span>
+        </div>
+
+        <div class="project-card-header">
+            <h2 class="project-title">BMSIT College AI Chatbot</h2>
+            <p class="project-tagline">LangChain + RAG + Gemini</p>
+        </div>
+
+        <div class="short-card-desc">
+            AI-powered college knowledge assistant using website data and uploaded documents with LangChain, RAG, Gemini and vector search.
+        </div>
+
+        <p>
+            <strong>Description:</strong> Built and deployed an AI-powered college chatbot specifically for BMS Institute of Technology &amp; Management. The chatbot combines information scraped from the BMSIT college website with uploaded institutional documents to create a searchable college knowledge base. It uses Gemini API, LangChain, Retrieval-Augmented Generation (RAG), embeddings and vector search to retrieve relevant information and generate context-aware answers grounded in official college details.
+        </p>
+
+        <p><strong>Key Features:</strong></p>
+        <ul>
+            <li>AI-powered college-specific chatbot &amp; searchable knowledge base</li>
+            <li>Website data scraping for up-to-date college information</li>
+            <li>Upload and process institutional documents for knowledge ingestion</li>
+            <li>Document chunking, embedding generation &amp; semantic retrieval via Supabase vector database</li>
+            <li>Retrieval-Augmented Generation (RAG) pipeline built with LangChain &amp; Gemini API</li>
+            <li>Source and page references for retrieved information when available</li>
+            <li>Designed specifically to answer queries using BMSIT institutional knowledge</li>
+        </ul>
+
+        <div class="tech-tags">
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">Gemini API</span>
+            <span class="tech-tag">LangChain</span>
+            <span class="tech-tag">RAG</span>
+            <span class="tech-tag">Embeddings</span>
+            <span class="tech-tag">Semantic Search</span>
+            <span class="tech-tag">Vector Database</span>
+            <span class="tech-tag">Supabase</span>
+            <span class="tech-tag">Web Scraping</span>
+        </div>
+
+        <div class="card-actions">
+            <a href="https://bmsit-chatbot.onrender.com/chatbot" target="_blank" rel="noopener noreferrer" class="btn">Live Demo →</a>
+        </div>
+    </div>
+
+    <!-- PROJECT 2: SmartHire GenAI -->
+    <div class="project-card" id="smarthire-genai">
+        <div class="project-badge-container">
+            <span class="project-badge">Generative AI</span>
+            <span class="project-badge">Career AI</span>
+            <span class="project-badge">RAG</span>
+            <span class="project-badge">LangChain</span>
+        </div>
+
+        <div class="project-card-header">
+            <h2 class="project-title">SmartHire GenAI</h2>
+            <p class="project-tagline">AI Career Portal</p>
+        </div>
+
+        <div class="short-card-desc">
+            Generative AI career platform for resume analysis, semantic job matching, CV improvement and an AI Career Mentor.
+        </div>
+
+        <p>
+            <strong>Description:</strong> Built a Generative AI career platform that helps students analyze their resumes, discover relevant job opportunities and interact with an AI Career Mentor. Students upload a resume and the system generates a structured candidate profile, performs semantic job matching, provides AI-generated resume improvement suggestions and supports career-related questions through a RAG-based chatbot.
+        </p>
+
+        <p><strong>Key Features:</strong></p>
+        <ul>
+            <li>Resume upload &amp; structured profile extraction using LLM-based structured output &amp; Pydantic schema handling</li>
+            <li>Semantic job matching powered by embedding-based similarity search</li>
+            <li>AI-generated resume improvement suggestions tailored to candidate profiles</li>
+            <li>Interactive AI Career Mentor chatbot with Retrieval-Augmented Generation (RAG)</li>
+            <li>Prompt engineering and LangChain integration powering LLM API workflows</li>
+            <li>Interactive web interface deployed on Streamlit</li>
+        </ul>
+
+        <div class="tech-tags">
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">LLM APIs</span>
+            <span class="tech-tag">LangChain</span>
+            <span class="tech-tag">RAG</span>
+            <span class="tech-tag">Embeddings</span>
+            <span class="tech-tag">Semantic Search</span>
+            <span class="tech-tag">Pydantic</span>
+            <span class="tech-tag">Prompt Engineering</span>
+            <span class="tech-tag">Streamlit</span>
+        </div>
+
+        <div class="card-actions">
+            <a href="https://smarthire136.streamlit.app/" target="_blank" rel="noopener noreferrer" class="btn">Live Demo →</a>
+        </div>
+    </div>
+
+    <h4 class="section-title" style="margin-top: 50px;">More Engineering &amp; AI Projects</h4>
+
+    <!-- Project 3: Generative AI Concept Builds -->
     <div class="project-card">
+        <div class="project-badge-container">
+            <span class="project-badge">Generative AI</span>
+            <span class="project-badge">Applied AI</span>
+        </div>
         <h2>Generative AI — Applied Concept Builds</h2>
 
         <p>
@@ -55,8 +165,12 @@
         </div>
     </div>
 
-    <!-- Project 2 -->
+    <!-- Project 4: Smart Farming Platform -->
     <div class="project-card">
+        <div class="project-badge-container">
+            <span class="project-badge">Machine Learning</span>
+            <span class="project-badge">Full-Stack</span>
+        </div>
         <h2>Smart Farming Platform — Crop Price Prediction</h2>
 
         <p>
@@ -80,19 +194,18 @@
             <strong>Impact:</strong> Converts scattered agricultural data into clear crop recommendations, so planting
             decisions are driven by price trends instead of guesswork.
         </p>
-        <p>
-            <strong>GenAI extension (planned, not yet implemented):</strong> A natural-language layer over the same
-            predictions, letting a farmer ask a question in plain language and receive an explanation grounded in the
-            model's output.
-        </p>
 
         <div class="status-box">
             <strong>Tech:</strong> Python, Machine Learning, Full-Stack Web, MySQL
         </div>
     </div>
 
-    <!-- Project 3 -->
+    <!-- Project 5: Livestock Dual Node Monitoring System -->
     <div class="project-card">
+        <div class="project-badge-container">
+            <span class="project-badge">IoT &amp; AI</span>
+            <span class="project-badge">Patent &amp; Publication</span>
+        </div>
         <h2>Livestock Dual Node Monitoring System</h2>
 
         <p>
@@ -122,8 +235,11 @@
         </div>
     </div>
 
-    <!-- Project 4 -->
+    <!-- Project 6: Smart Irrigation System -->
     <div class="project-card">
+        <div class="project-badge-container">
+            <span class="project-badge">IoT &amp; Hardware</span>
+        </div>
         <h2>Smart Irrigation System (IoT + AI)</h2>
 
         <p>
@@ -151,8 +267,11 @@
         </div>
     </div>
 
-    <!-- Project 5 -->
+    <!-- Project 7: Student ERP System -->
     <div class="project-card">
+        <div class="project-badge-container">
+            <span class="project-badge">Database &amp; Web</span>
+        </div>
         <h2>Student ERP System</h2>
 
         <p>
@@ -184,11 +303,7 @@
     <div class="project-note">
         <p>
             A pattern runs through this work: I start from a problem someone actually has, build the smallest system that
-            solves it, and take it far enough to run. That has meant writing firmware and designing sensor nodes for
-            livestock monitoring, training and serving prediction models for crop pricing, closing a control loop for
-            irrigation, modelling relational data for an ERP, and implementing GenAI concepts as working applications
-            rather than notes. The livestock system reached a filed patent and a published paper. I am now focused on
-            building GenAI systems with the same approach — real problem first, working implementation second.
+            solves it, and take it far enough to run. That has meant building deployed Generative AI applications (RAG chatbots with Gemini &amp; LangChain, career portals with structured resume parsing), writing firmware and designing sensor nodes for livestock monitoring, training and serving prediction models for crop pricing, closing a control loop for irrigation, and modelling relational data for an ERP. The livestock system reached a filed patent and a published paper. I am focused on building real-world GenAI systems — real problem first, working implementation second.
         </p>
     </div>
 
