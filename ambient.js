@@ -46,6 +46,11 @@
         stage.setAttribute('aria-hidden', 'true');
 
         stage.appendChild(el('ambient-hairlines'));
+        stage.appendChild(el('ambient-grid'));
+
+        ['o1', 'o2', 'o3'].forEach(function (n) {
+            stage.appendChild(el('ambient-orb ' + n));
+        });
 
         /* dust sits low so the glows wash over it */
         stage.appendChild(buildDust('far', small ? 45 : 110, 1.6));

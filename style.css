@@ -46,17 +46,28 @@ body {
     height: 100%;
     z-index: -6;
     background:
-        /* cool bloom overhead */
-        radial-gradient(ellipse 92% 60% at 58% -14%, rgba(var(--c-indigo), .34) 0%, transparent 66%),
+        /* cyan bloom overhead */
+        radial-gradient(ellipse 95% 65% at 55% -15%, rgba(var(--c-cyan), .32) 0%, transparent 68%),
+        /* cool indigo pool, upper left */
+        radial-gradient(ellipse 75% 60% at 18% 20%, rgba(var(--c-indigo), .35) 0%, transparent 70%),
         /* teal pool, lower left */
-        radial-gradient(ellipse 70% 50% at 8% 108%, rgba(var(--c-teal), .20) 0%, transparent 70%),
+        radial-gradient(ellipse 75% 55% at 5% 105%, rgba(var(--c-teal), .26) 0%, transparent 70%),
         /* violet pool, lower right */
-        radial-gradient(ellipse 62% 46% at 94% 104%, rgba(var(--c-violet), .22) 0%, transparent 70%),
+        radial-gradient(ellipse 68% 52% at 92% 102%, rgba(var(--c-violet), .30) 0%, transparent 70%),
+        /* electric blue center glow */
+        radial-gradient(circle at 50% 50%, rgba(var(--c-blue), .18) 0%, transparent 65%),
         /* deep night body */
-        linear-gradient(178deg, #040a1a 0%, #071229 40%, #050d1c 74%, #02060f 100%);
-    transform: translate3d(calc(var(--mx) * -6px), calc(var(--my) * -6px), 0) scale(1.04);
+        linear-gradient(178deg, #020713 0%, #051025 40%, #030a19 74%, #01040a 100%);
+    transform: translate3d(calc(var(--mx) * -8px), calc(var(--my) * -8px), 0) scale(1.05);
     transition: transform 1.2s cubic-bezier(.22, .61, .36, 1);
-    will-change: transform;
+    animation: c-bg-pulse 24s ease-in-out infinite alternate;
+    will-change: transform, opacity, filter;
+}
+
+@keyframes c-bg-pulse {
+    0%   { filter: brightness(1) contrast(1); }
+    50%  { filter: brightness(1.15) contrast(1.08); }
+    100% { filter: brightness(0.96) contrast(1.02); }
 }
 
 /* Drifting haze over the base */
@@ -66,18 +77,18 @@ body {
     width: 100%;
     height: 100%;
     background:
-        radial-gradient(44% 34% at 26% 24%, rgba(var(--c-blue), .16) 0%, transparent 66%),
-        radial-gradient(38% 30% at 76% 36%, rgba(var(--c-violet), .15) 0%, transparent 66%),
-        radial-gradient(52% 38% at 50% 80%, rgba(var(--c-indigo), .18) 0%, transparent 68%);
-    filter: blur(36px);
-    animation: c-haze 58s ease-in-out infinite alternate;
+        radial-gradient(48% 38% at 22% 28%, rgba(var(--c-blue), .22) 0%, transparent 68%),
+        radial-gradient(42% 34% at 78% 32%, rgba(var(--c-violet), .20) 0%, transparent 68%),
+        radial-gradient(55% 42% at 48% 78%, rgba(var(--c-indigo), .24) 0%, transparent 70%);
+    filter: blur(38px);
+    animation: c-haze 42s ease-in-out infinite alternate;
     will-change: transform, opacity;
 }
 
 @keyframes c-haze {
-    0%   { transform: translate3d(0, 0, 0) scale(1.05);    opacity: .70; }
-    50%  { transform: translate3d(-3%, 2%, 0) scale(1.17); opacity: 1; }
-    100% { transform: translate3d(3%, -2%, 0) scale(1.10); opacity: .82; }
+    0%   { transform: translate3d(0, 0, 0) scale(1.05);    opacity: .75; }
+    50%  { transform: translate3d(-4%, 3%, 0) scale(1.18); opacity: 1; }
+    100% { transform: translate3d(4%, -3%, 0) scale(1.10); opacity: .85; }
 }
 
 /* ================= GRADIENT HEADINGS ================= */
@@ -652,7 +663,74 @@ body::after {
     to   { background-position: 460px 0; }
 }
 
-/* --- Volumetric rays falling from above --- */
+/* --- Cybernetic tech grid overlay --- */
+.ambient-grid {
+    position: absolute;
+    inset: -35%;
+    background-image:
+        linear-gradient(to right, rgba(var(--c-cyan), 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(var(--c-indigo), 0.05) 1px, transparent 1px);
+    background-size: 65px 65px;
+    transform: perspective(600px) rotateX(20deg) translate3d(calc(var(--mx) * 16px), calc(var(--my) * 16px), 0);
+    transition: transform 1.4s cubic-bezier(.22, .61, .36, 1);
+    animation: c-grid-scroll 40s linear infinite;
+    mask-image: radial-gradient(ellipse 75% 75% at 50% 50%, #000 20%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse 75% 75% at 50% 50%, #000 20%, transparent 80%);
+    will-change: transform;
+}
+
+@keyframes c-grid-scroll {
+    0%   { background-position: 0 0; }
+    100% { background-position: 65px 130px; }
+}
+
+/* --- Floating glowing liquid light orbs --- */
+.ambient-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.65;
+    will-change: transform, opacity;
+}
+
+.ambient-orb.o1 {
+    width: 34vmax; height: 34vmax;
+    top: 8vh; left: 12vw;
+    background: radial-gradient(circle, rgba(var(--c-cyan), 0.38), rgba(var(--c-blue), 0.15), transparent 70%);
+    animation: c-orb-float1 28s ease-in-out infinite alternate;
+}
+
+.ambient-orb.o2 {
+    width: 38vmax; height: 38vmax;
+    bottom: 12vh; right: 8vw;
+    background: radial-gradient(circle, rgba(var(--c-violet), 0.40), rgba(var(--c-indigo), 0.18), transparent 70%);
+    animation: c-orb-float2 34s ease-in-out infinite alternate;
+}
+
+.ambient-orb.o3 {
+    width: 28vmax; height: 28vmax;
+    top: 48vh; left: 42vw;
+    background: radial-gradient(circle, rgba(var(--c-teal), 0.32), rgba(var(--c-blue), 0.16), transparent 70%);
+    animation: c-orb-float3 30s ease-in-out infinite alternate;
+}
+
+@keyframes c-orb-float1 {
+    0%   { transform: translate3d(0, 0, 0) scale(1); opacity: 0.55; }
+    50%  { transform: translate3d(14vw, 16vh, 0) scale(1.22); opacity: 0.88; }
+    100% { transform: translate3d(-10vw, 28vh, 0) scale(0.95); opacity: 0.6; }
+}
+
+@keyframes c-orb-float2 {
+    0%   { transform: translate3d(0, 0, 0) scale(1); opacity: 0.6; }
+    50%  { transform: translate3d(-16vw, -20vh, 0) scale(1.20); opacity: 0.92; }
+    100% { transform: translate3d(8vw, -32vh, 0) scale(1.05); opacity: 0.65; }
+}
+
+@keyframes c-orb-float3 {
+    0%   { transform: translate3d(0, 0, 0) scale(0.9); opacity: 0.48; }
+    50%  { transform: translate3d(-20vw, 14vh, 0) scale(1.28); opacity: 0.85; }
+    100% { transform: translate3d(16vw, -16vh, 0) scale(1); opacity: 0.52; }
+}
 .ambient-ray {
     position: absolute;
     top: -40vh;
