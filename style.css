@@ -146,10 +146,32 @@ body {
     text-transform: uppercase;
 }
 
+.profile-headline {
+    color: var(--t-bright);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    margin: 10px auto 14px;
+    max-width: 820px;
+    line-height: 1.6;
+}
+
+.profile-headline span {
+    color: var(--t-violet);
+    font-weight: 500;
+    font-size: 14px;
+    display: inline-block;
+    margin-top: 4px;
+}
+
 .summary {
-    margin-top: 10px;
+    margin-top: 14px;
     font-size: 15px;
     color: var(--t-body);
+    max-width: 840px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.75;
 }
 
 /* ================= COMMON CARD STYLE ================= */
